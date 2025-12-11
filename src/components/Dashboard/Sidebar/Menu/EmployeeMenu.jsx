@@ -1,5 +1,7 @@
 import { BsFingerprint } from "react-icons/bs";
 import { GrUserAdmin } from "react-icons/gr";
+import { LuCassetteTape } from "react-icons/lu";
+
 import MenuItem from "./MenuItem";
 import { useState } from "react";
 import BecomeHrModal from "../../../Modal/BecomeHrModal";
@@ -12,7 +14,8 @@ const EmployeeMenu = () => {
 
   return (
     <>
-      <MenuItem icon={BsFingerprint} label="My Orders" address="my-orders" />
+      <MenuItem icon={BsFingerprint} label="My Assets" address="my-inventory" />
+      <MenuItem icon={LuCassetteTape} label="Add Assets" address="add-asset" />
 
       <div
         onClick={() => setIsOpen(true)}

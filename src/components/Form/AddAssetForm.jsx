@@ -10,7 +10,7 @@ const AddAssetForm = () => {
                 Name
               </label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                className="w-full px-4 py-3 text-gray-800 border border-blue-300 focus:outline-blue-500 rounded-md bg-white"
                 name="name"
                 id="name"
                 type="text"
@@ -25,7 +25,7 @@ const AddAssetForm = () => {
               </label>
               <select
                 required
-                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                className="w-full px-4 py-3 border-blue-300 focus:outline-blue-500 rounded-md bg-white"
                 name="category"
               >
                 <option value="Indoor">Indoor</option>
@@ -43,7 +43,7 @@ const AddAssetForm = () => {
               <textarea
                 id="description"
                 placeholder="Write plant description here..."
-                className="block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-lime-300 bg-white focus:outline-lime-500 "
+                className="block rounded-md focus:blue-300 w-full h-32 px-4 py-3 text-gray-800  border border-blue-300 bg-white focus:outline-blue-500 "
                 name="description"
               ></textarea>
             </div>
@@ -57,7 +57,7 @@ const AddAssetForm = () => {
                   Price
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                  className="w-full px-4 py-3 text-gray-800 border border-blue-300 focus:outline-blue-500 rounded-md bg-white"
                   name="price"
                   id="price"
                   type="number"
@@ -72,7 +72,7 @@ const AddAssetForm = () => {
                   Quantity
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
+                  className="w-full px-4 py-3 text-gray-800 border border-blue-300 focus:outline-blue-500 rounded-md bg-white"
                   name="quantity"
                   id="quantity"
                   type="number"
@@ -94,7 +94,7 @@ const AddAssetForm = () => {
                       accept="image/*"
                       hidden
                     />
-                    <div className="bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500">
+                    <div className="bg-blue-400 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-blue-400">
                       Upload
                     </div>
                   </label>
@@ -105,7 +105,7 @@ const AddAssetForm = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 "
+              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-blue-400 "
             >
               Save & Continue
             </button>

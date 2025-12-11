@@ -1,6 +1,6 @@
 import AddAssetForm from "../../../components/Form/AddAssetForm";
 
-const AddPlant = () => {
+const AddAsset = () => {
   return (
     <div>
       {/* Form */}
@@ -9,4 +9,4 @@ const AddPlant = () => {
   );
 };
 
-export default AddPlant;
+export default AddAsset;

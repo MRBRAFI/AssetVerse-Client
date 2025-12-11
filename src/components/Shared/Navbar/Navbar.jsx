@@ -15,7 +15,7 @@ const Navbar = () => {
             {/* Logo */}
             <Link to="/">
               <img
-                src="https://i.ibb.co.com/Q3TSp1bc/Asset-Verse-Logo.png"
+                src="https://i.ibb.co.com/99p8zDNg/Asset-Verse-Logo-2.png"
                 alt="logo"
                 width="100"
                 height="100"

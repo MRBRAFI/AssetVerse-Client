@@ -8,7 +8,7 @@ const Profile = () => {
       <div className="bg-white shadow-lg rounded-2xl md:w-4/5 lg:w-3/5">
         <img
           alt="cover photo"
-          src={coverImg}
+          src={user?.coverPhoto || "https://i.ibb.co/7Yq8Y1Z/cover-photo.jpg"}
           className="w-full mb-4 rounded-t-lg h-56"
         />
         <div className="flex flex-col items-center justify-center p-4 -mt-16">
@@ -20,7 +20,7 @@ const Profile = () => {
             />
           </a>
 
-          <p className="p-2 px-4 text-xs text-white bg-lime-500 rounded-full">
+          <p className="p-2 px-4 text-xs text-white bg-blue-400 rounded-full">
             Employee
           </p>
           <p className="mt-2 text-xl font-medium text-gray-800 ">
@@ -40,10 +40,10 @@ const Profile = () => {
               </p>
 
               <div>
-                <button className="bg-lime-500  px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-lime-800 block mb-1">
+                <button className="bg-blue-400  px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-blue-800 block mb-1">
                   Update Profile
                 </button>
-                <button className="bg-lime-500 px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-lime-800">
+                <button className="bg-blue-400 px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-blue-800">
                   Change Password
                 </button>
               </div>

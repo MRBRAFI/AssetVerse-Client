@@ -29,7 +29,7 @@ const SellerRequestDataRow = () => {
         <div className="flex items-center gap-2">
           <select
             required
-            className="p-1 border-2 border-lime-300 focus:outline-lime-500 rounded-md text-gray-900  bg-white"
+            className="p-1 border-2 border-blue-300 focus:outline-blue-500 rounded-md text-gray-900  bg-white"
             name="category"
           >
             <option value="Pending">Pending</option>
