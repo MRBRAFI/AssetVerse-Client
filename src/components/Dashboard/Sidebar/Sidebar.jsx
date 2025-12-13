@@ -30,7 +30,7 @@ const Sidebar = () => {
           <div className="block cursor-pointer p-4 font-bold">
             <Link to="/">
               <img
-                src="https://i.ibb.co.com/BKGRC3Tm/rubaitul-azad-m-Jy-AMTeyp-A-unsplash.jpg"
+                src="https://i.ibb.co.com/99p8zDNg/Asset-Verse-Logo-2.png"
                 alt="logo"
                 width="100"
                 height="100"
@@ -60,7 +60,7 @@ const Sidebar = () => {
             <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-cente bg-white mx-auto">
               <Link to="/">
                 <img
-                  src="https://i.ibb.co.com/Q3TSp1bc/Asset-Verse-Logo.png"
+                  src="https://i.ibb.co.com/99p8zDNg/Asset-Verse-Logo-2.png"
                   alt="logo"
                   width="100"
                   height="100"
