@@ -3,9 +3,10 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
 const HRSignUp = () => {
-  const { createUser, updateUserProfile } = useAuth();
+  const { createUser, updateUserProfile, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
@@ -32,7 +33,7 @@ const HRSignUp = () => {
         formData
       );
       const imageURL = data?.data?.display_url;
-      createUser(email, password);
+      await createUser(email, password);
       await updateUserProfile(name, imageURL);
 
       const hrData = {
@@ -65,6 +66,10 @@ const HRSignUp = () => {
       );
     }
   };
+
+  if (loading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white gap-60">
@@ -166,7 +171,7 @@ const HRSignUp = () => {
 
           <button
             type="submit"
-            className="bg-blue-400 w-full py-3 text-white rounded-md"
+            className="bg-blue-400 w-full py-3 text-white rounded-md hover:cursor-pointer"
           >
             Sign Up as HR
           </button>

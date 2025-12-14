@@ -6,7 +6,7 @@ import axios from "axios";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, loading } = useAuth();
+  const { createUser, updateUserProfile, loading, setLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
@@ -33,7 +33,7 @@ const SignUp = () => {
         formData
       );
       const imageURL = data?.data?.display_url;
-      createUser(email, password);
+      await createUser(email, password);
       await updateUserProfile(name, imageURL);
 
       const employeeData = {
@@ -56,9 +56,8 @@ const SignUp = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error(
-        err?.response?.data?.message || err.message || "Signup failed"
-      );
+      toast.error("Signup failed");
+      setLoading(false);
     }
 
     console.log(data);
@@ -207,7 +206,7 @@ const SignUp = () => {
           <div>
             <button
               type="submit"
-              className="bg-blue-400 w-full rounded-md py-3 text-white"
+              className="bg-blue-400 w-full rounded-md py-3 text-white hover:cursor-pointer"
             >
               Continue
             </button>

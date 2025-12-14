@@ -10,7 +10,7 @@ const Profile = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:3000/users/${user.email}`)
+        .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
         .then((res) => {
           setUserInfo(res.data);
           setRole(res.data.role); // hr or employee
@@ -43,7 +43,7 @@ const Profile = () => {
           </a>
 
           <p className="p-2 px-4 text-xs text-white bg-blue-400 rounded-full">
-            {role || "Employee"}
+            {role || "No Information"}
           </p>
 
           <p className="mt-2 text-xl font-medium text-gray-800">

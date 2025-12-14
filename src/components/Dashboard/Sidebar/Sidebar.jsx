@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 // Icons
@@ -12,15 +12,28 @@ import MenuItem from "./Menu/MenuItem";
 import AdminMenu from "./Menu/HrMenu";
 import HrMenu from "./Menu/HrMenu";
 import EmployeeMenu from "./Menu/EmployeeMenu";
+import axios from "axios";
 
 const Sidebar = () => {
-  const { logOut } = useAuth();
+  const { user, logOut } = useAuth();
   const [isActive, setActive] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
+      .then((res) => {
+        setUserInfo(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [user?.email]);
+
+  console.log(userInfo);
 
   return (
     <>
@@ -73,15 +86,8 @@ const Sidebar = () => {
           <div className="flex flex-col justify-between flex-1 mt-6">
             {/*  Menu Items */}
             <nav>
-              {/* Common Menu */}
-              <MenuItem
-                icon={BsGraphUp}
-                label="Statistics"
-                address="/dashboard"
-              />
               {/* Role-Based Menu */}
-              <EmployeeMenu />
-              <HrMenu />
+              {userInfo?.role === "HR" ? <HrMenu /> : <EmployeeMenu />}
             </nav>
           </div>
 
