@@ -20,6 +20,9 @@ const Card = () => {
             src="https://i.ibb.co.com/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg"
             alt="Plant Image"
           />
+          <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-md text-xs font-bold text-gray-700 shadow-sm">
+            In Stock
+          </div>
         </div>
 
         <div className="p-5">
@@ -48,9 +51,6 @@ const Card = () => {
               <span className="text-xs text-gray-400">Price</span>
               <span className="text-xl font-bold text-gray-900">$15.00</span>
             </div>
-            <button className="px-4 py-2 rounded-lg bg-gray-50 text-gray-700 text-sm font-semibold group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-              View Details
-            </button>
           </div>
         </div>
       </Link>

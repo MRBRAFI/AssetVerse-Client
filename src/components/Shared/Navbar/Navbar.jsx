@@ -16,7 +16,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="fixed w-full bg-white z-10 shadow-sm">
+    <div className="fixed w-full bg-white z-50 shadow-sm">
       <div className="py-4 ">
         <Container>
           <div className="flex flex-row  items-center justify-between gap-3 md:gap-0">
@@ -31,13 +31,28 @@ const Navbar = () => {
                 />
               </Link>
             </div>
+            <div className="hidden md:flex md:gap-5">
+              <Link
+                to={"/about-us"}
+                className="text-xl font-semibold text-blue-600"
+              >
+                About Us
+              </Link>
+
+              <Link
+                to={"/contact-us"}
+                className="text-xl font-semibold text-blue-600"
+              >
+                Contact Us
+              </Link>
+            </div>
             {/* Dropdown Menu */}
             <div className="relative w-20">
               <div className="flex flex-row items-center gap-3">
                 {/* Dropdown btn */}
                 <div
                   onClick={() => setIsOpen(!isOpen)}
-                  className="p-4 md:py-1 w-28 h-12 md:px-2 border border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
+                  className="p-2 md:py-1 w-28 h-12 md:px-2 border border-neutral-200 flex flex-row items-center gap-3 rounded-2xl cursor-pointer hover:shadow-md transition"
                 >
                   <AiOutlineMenu />
                   <div className="">
@@ -48,7 +63,7 @@ const Navbar = () => {
                       }
                       transition={{ duration: 0.8 }}
                       onAnimationComplete={() => setIsBlinking(false)}
-                      className="rounded-full"
+                      className="rounded-xl"
                       referrerPolicy="no-referrer"
                       src={
                         user && user.photoURL
@@ -65,13 +80,6 @@ const Navbar = () => {
               {isOpen && (
                 <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-sm">
                   <div className="flex flex-col cursor-pointer">
-                    <Link
-                      to="/"
-                      className="block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                    >
-                      Home
-                    </Link>
-
                     {user ? (
                       <>
                         <Link
@@ -79,6 +87,18 @@ const Navbar = () => {
                           className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                         >
                           Home
+                        </Link>
+                        <Link
+                          to={"/about-us"}
+                          className="flex md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                        >
+                          About Us
+                        </Link>
+                        <Link
+                          to={"/contact-us"}
+                          className="flex md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                        >
+                          Contact Us
                         </Link>
                         <Link
                           to="/dashboard"

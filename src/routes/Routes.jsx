@@ -16,6 +16,7 @@ import MyRequests from "../pages/Dashboard/Employee/MyRequests";
 import { createBrowserRouter } from "react-router";
 import HrSignUp from "../pages/SignUp/HrSignUp/HrSignUp";
 import ContactUs from "../pages/ContactUs.jsx/ContactUs";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "/contact-us",
         element: <ContactUs></ContactUs>,
+      },
+      {
+        path: "/about-us",
+        element: <AboutUs></AboutUs>,
       },
     ],
   },
