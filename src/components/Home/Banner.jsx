@@ -23,10 +23,7 @@ const Banner = () => {
     const t = setTimeout(() => setAnimate(false), 1800);
     return () => clearTimeout(t);
   }, [animate]);
-
-  // Replace with a local asset if you prefer; this is a neutral illustrative image.
-  const heroImage =
-    "https://images.unsplash.com/photo-1506765515384-028b60a970df?auto=format&fit=crop&w=1000&q=80";
+  const heroImage = "https://i.ibb.co.com/9m17TPPk/download-1-1.jpg";
 
   return (
     <section className="relative overflow-hidden bg-white">

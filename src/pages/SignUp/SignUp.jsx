@@ -3,21 +3,28 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { useForm } from "react-hook-form";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading } =
-    useAuth();
+  const { createUser, updateUserProfile, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
 
-  // form submit handler
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  console.log(errors);
+  const onSubmit = async (data) => {
+    const { name, email, password, image } = data;
+
+    const imgageFile = image[0];
+
+    const formData = new FormData();
+    formData.append("image", imgageFile);
 
     try {
       //2. User Registration
@@ -26,17 +33,21 @@ const SignUp = () => {
       //3. Save username & profile photo
       await updateUserProfile(
         name,
-        "https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c"
+        "https://i.ibb.co.com/jvCXPN73/Color-Hunt-Palette-3396d3fff0ceebcb90eeeeee.png"
       );
       console.log(result);
 
       navigate(from, { replace: true });
       toast.success("Signup Successful");
+      console.log(result);
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
     }
+
+    console.log(data);
   };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
       <div className="flex flex-col max-w-99 p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
@@ -45,7 +56,7 @@ const SignUp = () => {
           <p className="text-sm text-gray-400">Welcome to PlantNet</p>
         </div>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           noValidate=""
           action=""
           className="space-y-6 ng-untouched ng-pristine ng-valid"
@@ -57,12 +68,23 @@ const SignUp = () => {
               </label>
               <input
                 type="text"
-                name="name"
                 id="name"
-                placeholder="Enter Your Name Here"
+                placeholder="Your Name"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
+                {...register("name", {
+                  required: true,
+                  maxLength: {
+                    value: 20,
+                    message: "Name cannot exceed 20 characters",
+                  },
+                })}
               />
+              <div className="h-3 w-70">
+                {errors.name && (
+                  <p className="text-red-600">{errors.name.message}</p>
+                )}
+              </div>
             </div>
             {/* Image */}
             <div>
@@ -77,15 +99,17 @@ const SignUp = () => {
                 type="file"
                 id="image"
                 accept="image/*"
-                className="block w-full text-sm text-gray-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-md file:border-0
-      file:text-sm file:font-semibold
-      file:bg-blue-50 file:text-blue-700
-      hover:file:bg-blue-100
-      bg-gray-100 border border-dashed border-blue-300 rounded-md cursor-pointer
-      focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400
-      py-2"
+                className="
+                block w-full text-sm text-gray-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-md file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100
+                bg-gray-100 border border-dashed border-blue-300 rounded-md cursor-pointer
+                focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400
+                y-2"
+                {...register("image")}
               />
               <p className="mt-1 text-xs text-gray-400">
                 PNG, JPG or JPEG (max 2MB)
@@ -97,13 +121,23 @@ const SignUp = () => {
               </label>
               <input
                 type="email"
-                name="email"
                 id="email"
-                required
-                placeholder="Enter Your Email Here"
+                placeholder="Your Email"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
+                {...register("email", {
+                  required: true,
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email address",
+                  },
+                })}
               />
+              <div className="h-3 w-70">
+                {errors.email && (
+                  <p className="text-red-600">{errors.email.message}</p>
+                )}
+              </div>
             </div>
             <div>
               <div className="flex justify-between">
@@ -113,13 +147,23 @@ const SignUp = () => {
               </div>
               <input
                 type="password"
-                name="password"
                 autoComplete="new-password"
                 id="password"
-                required
-                placeholder="*******"
+                placeholder="Password"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
+                {...register("password", {
+                  required: true,
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
               />
+              <div className="h-3 w-70">
+                {errors.password && (
+                  <p className="text-red-600">{errors.password.message}</p>
+                )}
+              </div>
             </div>
           </div>
 

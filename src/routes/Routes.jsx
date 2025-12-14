@@ -14,6 +14,7 @@ import MyInventory from "../pages/Dashboard/HR/MyInventory";
 import ManageRequests from "../pages/Dashboard/HR/ManageRequests";
 import MyRequests from "../pages/Dashboard/Employee/MyRequests";
 import { createBrowserRouter } from "react-router";
+import HrSignUp from "../pages/SignUp/HrSignUp/HrSignUp";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
   },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
+  { path: "/hr-signup", element: <HrSignUp></HrSignUp> },
   {
     path: "/dashboard",
     element: (

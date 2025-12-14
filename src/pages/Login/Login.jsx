@@ -4,24 +4,27 @@ import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const { signIn, loading, user } = useAuth();
+  const { signIn, loading, user, setLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state || "/";
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const from = location.state?.from?.pathname || "/";
 
   if (loading) return <LoadingSpinner />;
   if (user) return <Navigate to={from} replace={true} />;
 
-  // form submit handler
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const email = form.email.value;
-    const password = form.password.value;
-
+  const onSubmit = async (data) => {
+    const { email, password } = data;
     try {
       //User Login
       await signIn(email, password);
@@ -31,8 +34,28 @@ const Login = () => {
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
+      setLoading(false);
     }
   };
+
+  // form submit handler
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const form = event.target;
+  //   const email = form.email.value;
+  //   const password = form.password.value;
+
+  // try {
+  //   //User Login
+  //   await signIn(email, password);
+
+  //   navigate(from, { replace: true });
+  //   toast.success("Login Successful");
+  // } catch (err) {
+  //   console.log(err);
+  //   toast.error(err?.message);
+  // }
+  // };
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
@@ -43,7 +66,7 @@ const Login = () => {
           </p>
         </div>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           noValidate=""
           action=""
           className="space-y-6 ng-untouched ng-pristine ng-valid"
@@ -55,12 +78,17 @@ const Login = () => {
               </label>
               <input
                 type="email"
-                name="email"
                 id="email"
-                required
                 placeholder="Enter Your Email Here"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
                 data-temp-mail-org="0"
+                {...register("email", {
+                  required: true,
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email address",
+                  },
+                })}
               />
             </div>
             <div>
@@ -71,12 +99,17 @@ const Login = () => {
               </div>
               <input
                 type="password"
-                name="password"
                 autoComplete="current-password"
                 id="password"
-                required
-                placeholder="*******"
+                placeholder="Your Password"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
               />
             </div>
           </div>
