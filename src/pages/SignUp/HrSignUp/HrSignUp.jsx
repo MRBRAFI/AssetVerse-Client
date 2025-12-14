@@ -25,8 +25,15 @@ const HRSignUp = () => {
     formData.append("image", imgageFile);
 
     try {
-      const result = await createUser(email, password);
-      await updateUserProfile(name, image);
+      const { data } = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMGBB_API_KEY
+        }`,
+        formData
+      );
+      const imageURL = data?.data?.display_url;
+      createUser(email, password);
+      await updateUserProfile(name, imageURL);
 
       const hrData = {
         name,
