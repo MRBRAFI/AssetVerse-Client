@@ -1,11 +1,19 @@
 import Container from "../Container";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [isBlinking, setIsBlinking] = useState(false);
+
+  useEffect(() => {
+    const handleBlink = () => setIsBlinking(true);
+    window.addEventListener("blink-profile", handleBlink);
+    return () => window.removeEventListener("blink-profile", handleBlink);
+  }, []);
 
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm">
@@ -13,14 +21,16 @@ const Navbar = () => {
         <Container>
           <div className="flex flex-row  items-center justify-between gap-3 md:gap-0">
             {/* Logo */}
-            <Link to="/">
-              <img
-                src="https://i.ibb.co.com/99p8zDNg/Asset-Verse-Logo-2.png"
-                alt="logo"
-                width="100"
-                height="100"
-              />
-            </Link>
+            <div>
+              <Link to="/">
+                <img
+                  src="https://i.ibb.co.com/wN4Cn0z9/Asset-Verse-Redesigned.png"
+                  alt="logo"
+                  width="100"
+                  height="100"
+                />
+              </Link>
+            </div>
             {/* Dropdown Menu */}
             <div className="relative w-20">
               <div className="flex flex-row items-center gap-3">
@@ -30,9 +40,14 @@ const Navbar = () => {
                   className="p-4 md:py-1 w-28 h-12 md:px-2 border border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
                 >
                   <AiOutlineMenu />
-                  <div className="hidden md:block">
+                  <div className="">
                     {/* Avatar */}
-                    <img
+                    <motion.img
+                      animate={
+                        isBlinking ? { opacity: [1, 0, 1, 0, 1, 0, 1] } : {}
+                      }
+                      transition={{ duration: 0.8 }}
+                      onAnimationComplete={() => setIsBlinking(false)}
                       className="rounded-full"
                       referrerPolicy="no-referrer"
                       src={
@@ -60,6 +75,12 @@ const Navbar = () => {
                     {user ? (
                       <>
                         <Link
+                          to={"/"}
+                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                        >
+                          Home
+                        </Link>
+                        <Link
                           to="/dashboard"
                           className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                         >
@@ -84,13 +105,13 @@ const Navbar = () => {
                           to="/hr-signup"
                           className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                         >
-                          Sign up as a HR
+                          Join as HR Manager
                         </Link>
                         <Link
                           to="/signup"
                           className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                         >
-                          Sign up as a employee
+                          Join as Employee
                         </Link>
                       </>
                     )}

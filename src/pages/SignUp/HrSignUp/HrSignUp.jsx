@@ -38,6 +38,7 @@ const HRSignUp = () => {
       const hrData = {
         name,
         email,
+        password,
         role: "HR",
         companyName,
         companyLogo,

@@ -33,7 +33,7 @@ const Login = () => {
       toast.success("Login Successful");
     } catch (err) {
       console.log(err);
-      toast.error(err?.message);
+      toast.error("uuh oh! Valid Credentials are required");
       setLoading(false);
     }
   };

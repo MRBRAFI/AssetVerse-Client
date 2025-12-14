@@ -1,9 +1,9 @@
 import { Link, useLocation, useNavigate } from "react-router";
-import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
-import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, loading } = useAuth();
@@ -14,12 +14,11 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   console.log(errors);
   const onSubmit = async (data) => {
-    const { name, email, password, image } = data;
+    const { name, email, password, image, date } = data;
 
     const imgageFile = image[0];
 
@@ -27,26 +26,47 @@ const SignUp = () => {
     formData.append("image", imgageFile);
 
     try {
-      //2. User Registration
-      const result = await createUser(email, password);
-
-      //3. Save username & profile photo
-      await updateUserProfile(
-        name,
-        "https://i.ibb.co.com/jvCXPN73/Color-Hunt-Palette-3396d3fff0ceebcb90eeeeee.png"
+      const { data } = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMGBB_API_KEY
+        }`,
+        formData
       );
-      console.log(result);
+      const imageURL = data?.data?.display_url;
+      createUser(email, password);
+      await updateUserProfile(name, imageURL);
 
-      navigate(from, { replace: true });
-      toast.success("Signup Successful");
-      console.log(result);
+      const employeeData = {
+        name,
+        email,
+        password,
+        dateOfBirth: date,
+        role: "employee",
+      };
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/users`,
+        employeeData
+      );
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Employee Signup Successful!");
+        navigate(from, { replace: true });
+      } else {
+        toast.error(response.data.message || "Signup failed");
+      }
     } catch (err) {
-      console.log(err);
-      toast.error(err?.message);
+      console.error(err);
+      toast.error(
+        err?.response?.data?.message || err.message || "Signup failed"
+      );
     }
 
     console.log(data);
   };
+
+  if (loading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
@@ -138,6 +158,23 @@ const SignUp = () => {
                   <p className="text-red-600">{errors.email.message}</p>
                 )}
               </div>
+
+              {/* Date of Birth */}
+
+              <label htmlFor="email" className="block mb-2 text-sm">
+                Date of Birth{" "}
+              </label>
+              <input
+                type="date"
+                id="date"
+                placeholder="Your Email"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
+                data-temp-mail-org="0"
+                {...register("date", {
+                  required: true,
+                })}
+              />
+              <div className="h-3 w-70"></div>
             </div>
             <div>
               <div className="flex justify-between">

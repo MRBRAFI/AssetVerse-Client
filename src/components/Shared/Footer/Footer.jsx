@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div className="flex flex-col items-start gap-4">
             <img
-              src="https://i.ibb.co.com/99p8zDNg/Asset-Verse-Logo-2.png"
+              src="https://i.ibb.co.com/wN4Cn0z9/Asset-Verse-Redesigned.png"
               alt="AssetVerse"
               width="100"
               height="100"

@@ -1,126 +1,270 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router";
 import Container from "../Shared/Container";
+import useAuth from "../../hooks/useAuth";
 
-// Banner with left-side image and right-side text reveal animation.
-// Animation runs only once per session (uses sessionStorage 'bannerSeen').
 const Banner = () => {
-  // initialize animation state from sessionStorage (avoid setState in effect)
-  const [animate, setAnimate] = useState(() => {
-    try {
-      return !sessionStorage.getItem("bannerSeen");
-    } catch {
-      return false;
-    }
-  });
-
-  useEffect(() => {
-    if (!animate) return;
-    try {
-      sessionStorage.setItem("bannerSeen", "1");
-    } catch {
-      // ignore
-    }
-    const t = setTimeout(() => setAnimate(false), 1800);
-    return () => clearTimeout(t);
-  }, [animate]);
   const heroImage = "https://i.ibb.co.com/9m17TPPk/download-1-1.jpg";
 
+  const { user } = useAuth();
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, // Stagger effect for children
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 20,
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.95, x: 50 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const floatAnimation = {
+    y: [0, -15, 0],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  };
+
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-hidden bg-white/50 pt-16 pb-20 lg:pt-24 lg:pb-32">
+      {/* Background decoration */}
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 -z-10 w-full h-full overflow-hidden">
+        <motion.div
+          animate={{
+            scale: [1, 1.5, 1],
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          }}
+          className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-400/40 rounded-full blur-[120px]"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.6, 1],
+            x: [0, -60, 0],
+            y: [0, -80, 0],
+          }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-500/30 rounded-full blur-[140px]"
+        />
+        <motion.div
+          animate={{
+            opacity: [0.4, 0.8, 0.4],
+            scale: [1, 1.4, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          }}
+          className="absolute top-[30%] left-[20%] w-80 h-80 bg-purple-400/30 rounded-full blur-[100px]"
+        />
+      </div>
+
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          {/* Left Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Left Content */}
+          <motion.div
+            className="order-2 md:order-1"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Tagline */}
+            <motion.div variants={itemVariants} className="mb-6">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 shadow-sm">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-wider">
+                  Asset Intelligence
+                </span>
+              </span>
+            </motion.div>
 
-          <div className="order-1 md:order-1">
-            <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full bg-blue-50 text-blue-600 mb-4">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-              <div className="text-xs font-medium uppercase tracking-wider">
-                <p
-                  className={`text-gray-600 mb-6 max-w-xl ${
-                    animate ? "reveal-parent" : ""
-                  }`}
+            {/* Headline */}
+            <motion.h1
+              variants={itemVariants}
+              className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-tight mb-6"
+            >
+              Track, Secure, <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Optimize Assets
+              </span>
+            </motion.h1>
+
+            {/* Description */}
+            <motion.p
+              variants={itemVariants}
+              className="text-lg text-gray-600 mb-8 max-w-lg leading-relaxed"
+            >
+              AssetVerse helps teams verify and manage both physical and digital
+              assets in one unified platform. Simplify audits, reduce downtime,
+              and gain total visibility.
+            </motion.p>
+
+            {/* Buttons */}
+            <motion.div
+              variants={itemVariants}
+              className="flex gap-4 flex-col sm:flex-row mb-12"
+            >
+              {!user && (
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={(e) => {
+                    // e.preventDefault(); // Optional: prevent default if you want to stay on page to see blink
+                    window.dispatchEvent(new Event("blink-profile"));
+                  }}
+                  className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-blue-600 text-white font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-xl transition-all duration-300 hover:cursor-pointer"
                 >
-                  <span
-                    className="reveal-line"
-                    style={{ transitionDelay: "720ms" }}
-                  >
-                    AssetVerse helps teams track, secure and optimise both
-                    physical and digital assets — all in one place.
-                  </span>
-                </p>
+                  Get Started Free
+                </motion.a>
+              )}
+              <Link to="/contact-us">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white border border-gray-200 text-gray-800 font-semibold shadow-sm hover:border-gray-300 hover:bg-gray-50 transition-all duration-300"
+                >
+                  Book a Demo
+                </motion.div>
+              </Link>
+            </motion.div>
 
-                {/* Info panel on the left text section (visible on md+) */}
-                <div className="hidden md:block mb-6">
-                  <div className="bg-white/90 backdrop-blur rounded-xl p-4 shadow-md w-full max-w-xl">
-                    <div className="text-sm text-gray-600 mb-3">
-                      Trusted by teams worldwide
+            {/* Trust Badges / Social Proof */}
+            <motion.div
+              variants={itemVariants}
+              className="pt-8 border-t border-gray-100"
+            >
+              <p className="text-sm font-medium text-gray-500 mb-4">
+                Trusted by operational teams worldwide
+              </p>
+              <div className="flex items-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                {/* Placeholders for logos - replacing text with visual blocks for now or simple text */}
+                <span className="font-bold text-xl text-gray-400">
+                  TechCorp
+                </span>
+                <span className="font-bold text-xl text-gray-400">
+                  LogistiX
+                </span>
+                <span className="font-bold text-xl text-gray-400">
+                  SecureSys
+                </span>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Content - Hero Image */}
+          <motion.div
+            className="order-1 md:order-2 relative z-10"
+            variants={containerVariants} // Use container to sync, or separate initial
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Floating Main Image */}
+            <motion.div
+              variants={imageVariants}
+              animate={floatAnimation} // Overrides variants animate for y, but keeps initial scale/fade
+              className="relative"
+            >
+              {/* Decorative blob behind image */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-3xl blur-2xl opacity-20 transform rotate-3 scale-105" />
+
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/50 backdrop-blur-sm">
+                <img
+                  src={heroImage}
+                  alt="AssetVerse Dashboard"
+                  className="w-full h-auto object-cover"
+                />
+
+                {/* Glassmorphic Overlay Card */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="bg-white/80 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/60">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-semibold text-gray-800">
+                        System Status
+                      </span>
+                      <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
                     </div>
-                    <div className="grid grid-cols-3 gap-3 mb-3">
-                      <div className="text-center bg-blue-50 p-2 rounded-md">
-                        <div className="text-lg font-bold text-blue-600">
-                          120+
-                        </div>
-                        <div className="text-xs text-gray-600">
-                          Assets Tracked
-                        </div>
-                      </div>
-                      <div className="text-center bg-blue-50 p-2 rounded-md">
-                        <div className="text-lg font-bold text-blue-600">
+                    <div className="flex justify-between gap-4">
+                      <div>
+                        <div className="text-2xl font-bold text-blue-600">
                           99.9%
                         </div>
-                        <div className="text-xs text-gray-600">Uptime</div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">
+                          Uptime
+                        </div>
                       </div>
-                      <div className="text-center bg-blue-50 p-2 rounded-md">
-                        <div className="text-lg font-bold text-blue-600">
+                      <div>
+                        <div className="text-2xl font-bold text-indigo-600">
+                          12k+
+                        </div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">
+                          Assets
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-green-600">
                           SOC2
                         </div>
-                        <div className="text-xs text-gray-600">Compliant</div>
+                        <div className="text-xs text-gray-500 uppercase tracking-wide">
+                          Secure
+                        </div>
                       </div>
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Secure, auditable and easy to use — built for teams.
                     </div>
                   </div>
                 </div>
-
-                <div
-                  className={`flex gap-4 flex-col sm:flex-row ${
-                    animate ? "reveal-parent" : ""
-                  }`}
-                >
-                  <a
-                    href="/signup"
-                    className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition"
-                  >
-                    Get Started Free
-                  </a>
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-50 transition"
-                  >
-                    Contact Sales
-                  </a>
-                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Right content */}
-
-          <div className="order-2 md:order-2">
-            <div className="relative rounded-2xl overflow-hidden shadow-lg">
-              <img
-                src={heroImage}
-                alt="Asset management dashboard preview"
-                className="w-full h-72 sm:h-96 object-cover block"
-              />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </Container>
-
-      {/* Inline styles for reveal animation (keeps Tailwind config untouched) */}
-      <style>{`\n        .reveal-line {\n          display: inline-block;\n          transform: translateY(18px);\n          opacity: 0;\n          transition: transform 450ms cubic-bezier(.2,.9,.2,1), opacity 400ms ease;\n        }\n        .reveal-parent .reveal-line {\n          transform: translateY(0);\n          opacity: 1;\n        }\n        /* gradient for emphasis */\n        .text-gradient {\n          background: linear-gradient(90deg,#0ea5e9 0%, #6366f1 100%);\n          -webkit-background-clip: text;\n          -webkit-text-fill-color: transparent;\n        }\n      `}</style>
     </section>
   );
 };

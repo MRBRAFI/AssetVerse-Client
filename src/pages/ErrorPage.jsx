@@ -1,61 +1,125 @@
-import Button from "../components/Shared/Button/Button";
+import React from "react";
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
+import { FiAlertTriangle, FiArrowLeft, FiHome } from "react-icons/fi";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
 
+  // Floating animation for the 404 visual
+  const floatVariants = {
+    animate: {
+      y: [0, -20, 0],
+      rotate: [0, 5, -5, 0],
+      transition: {
+        duration: 5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        type: "spring",
+        stiffness: 120,
+      },
+    },
+  };
+
   return (
-    <section className="bg-white ">
-      <div className="container flex items-center min-h-screen px-6 py-12 mx-auto">
-        <div className="flex flex-col items-center max-w-sm mx-auto text-center">
-          <p className="p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
-              />
-            </svg>
-          </p>
-          <h1 className="mt-3 text-2xl font-semibold text-gray-800  md:text-3xl">
-            Something Went Wrong!
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white/10">
+      {/* Background Glow Animation */}
+      <div className="absolute top-0 right-0 -z-10 w-full h-full overflow-hidden">
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          }}
+          className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-red-200/40 rounded-full blur-[100px]"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -40, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-orange-200/40 rounded-full blur-[120px]"
+        />
+      </div>
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 w-full max-w-lg p-4"
+      >
+        <div className="bg-white/70 backdrop-blur-xl border border-white/50 shadow-2xl rounded-3xl p-10 text-center">
+          
+          <motion.div 
+            variants={floatVariants}
+            animate="animate"
+            className="inline-flex justify-center items-center w-24 h-24 mb-6 rounded-full bg-red-50 text-red-500 shadow-inner"
+          >
+            <FiAlertTriangle className="text-5xl" />
+          </motion.div>
+
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-2 tracking-tight">
+            Oops!
           </h1>
-          <p className="mt-4 text-gray-500 ">Here are some helpful links:</p>
+          <p className="text-lg md:text-xl font-medium text-gray-600 mb-6">
+            Something went wrong here.
+          </p>
+          <p className="text-gray-500 mb-8 max-w-sm mx-auto leading-relaxed">
+            The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+          </p>
 
-          <div className="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
-            <button
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => navigate(-1)}
-              className="flex items-center justify-center w-1/2 px-5 py-1 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto   hover:bg-gray-100 "
+              className="px-6 py-3 rounded-xl bg-white border border-gray-200 text-gray-700 font-semibold shadow-sm hover:bg-gray-50 hover:border-gray-300 flex items-center justify-center gap-2 transition-all"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-5 h-5 rtl:rotate-180 text-blue-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-                />
-              </svg>
+              <FiArrowLeft />
+              <span>Go Back</span>
+            </motion.button>
 
-              <span>Go back</span>
-            </button>
-
-            <Button label={"Take Me Home"} onClick={() => navigate("/")} />
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/")}
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-200 hover:shadow-xl flex items-center justify-center gap-2 transition-all"
+            >
+              <FiHome />
+              <span>Home Page</span>
+            </motion.button>
           </div>
         </div>
-      </div>
+
+        {/* Decorative elements on the card */}
+        <div className="absolute -top-6 -left-6 w-20 h-20 bg-blue-500/20 rounded-full blur-xl -z-10"></div>
+        <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl -z-10"></div>
+      </motion.div>
     </section>
   );
 };

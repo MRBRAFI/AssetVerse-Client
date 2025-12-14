@@ -15,6 +15,7 @@ import ManageRequests from "../pages/Dashboard/HR/ManageRequests";
 import MyRequests from "../pages/Dashboard/Employee/MyRequests";
 import { createBrowserRouter } from "react-router";
 import HrSignUp from "../pages/SignUp/HrSignUp/HrSignUp";
+import ContactUs from "../pages/ContactUs.jsx/ContactUs";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: "/asset/:id",
         element: <AssetDetails></AssetDetails>,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs></ContactUs>,
       },
     ],
   },
