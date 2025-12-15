@@ -17,6 +17,7 @@ import { createBrowserRouter } from "react-router";
 import HrSignUp from "../pages/SignUp/HrSignUp/HrSignUp";
 import ContactUs from "../pages/ContactUs.jsx/ContactUs";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import Packages from "../pages/Dashboard/HR/Packages";
 
 export const router = createBrowserRouter([
   {
@@ -86,6 +87,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "my-packages",
+        element: (
+          <PrivateRoute>
+            <Packages></Packages>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "profile",
         element: (
           <PrivateRoute>
@@ -105,6 +114,7 @@ export const router = createBrowserRouter([
         path: "manage-requests",
         element: <ManageRequests />,
       },
+
     ],
   },
 ]);

@@ -35,7 +35,7 @@ const AdminMenu = () => {
       <MenuItem
         icon={FaMoneyBillTrendUp}
         label={"Upgrade Package"}
-        address={"/"}
+        address={"/dashboard/my-packages"}
       ></MenuItem>
     </>
   );

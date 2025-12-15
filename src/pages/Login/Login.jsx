@@ -90,6 +90,13 @@ const Login = () => {
                   },
                 })}
               />
+              <div>
+                {errors.mail && (
+                  <p className="text-red-500 mt-1 text-sm">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
             </div>
             <div>
               <div className="flex justify-between">
@@ -111,13 +118,20 @@ const Login = () => {
                   },
                 })}
               />
+              <div>
+                {errors.password && (
+                  <p className="text-red-500 mt-1 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
           <div>
             <button
               type="submit"
-              className="bg-blue-400 w-full rounded-md py-3 text-white"
+              className="bg-blue-400 w-full rounded-md py-3 text-white hover:cursor-pointer"
             >
               Continue
             </button>

@@ -3,6 +3,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
+import Button from "../Button/Button";
 import useAuth from "../../../hooks/useAuth";
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -24,7 +25,7 @@ const Navbar = () => {
             <div>
               <Link to="/">
                 <img
-                  src="https://i.ibb.co.com/wN4Cn0z9/Asset-Verse-Redesigned.png"
+                  src="https://i.ibb.co.com/8nFLkgbk/Asset-Verse-Logo-5.png"
                   alt="logo"
                   width="100"
                   height="100"
@@ -34,14 +35,14 @@ const Navbar = () => {
             <div className="hidden md:flex md:gap-5">
               <Link
                 to={"/about-us"}
-                className="text-xl font-semibold text-blue-600"
+                className="btn btn-primary text-xl font-semibold text-white"
               >
                 About Us
               </Link>
 
               <Link
                 to={"/contact-us"}
-                className="text-xl font-semibold text-blue-600"
+                className="btn btn-primary text-xl font-semibold text-white"
               >
                 Contact Us
               </Link>
