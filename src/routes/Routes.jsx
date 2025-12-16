@@ -112,9 +112,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "manage-requests",
-        element: <ManageRequests />,
+        element: (
+          <PrivateRoute>
+            <ManageRequests />
+          </PrivateRoute>
+        ),
       },
-
     ],
   },
 ]);

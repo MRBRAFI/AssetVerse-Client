@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Profile = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [role, setRole] = useState("");
   const [userInfo, setUserInfo] = useState("");
 
   useEffect(() => {
     if (user?.email) {
-      axios
+      axiosSecure
         .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
         .then((res) => {
           setUserInfo(res.data);
@@ -17,7 +19,7 @@ const Profile = () => {
         })
         .catch((err) => console.log(err));
     }
-  }, [user?.email]);
+  }, [user?.email, axiosSecure]);
 
   console.log(userInfo);
   console.log(user);
@@ -28,8 +30,9 @@ const Profile = () => {
         <img
           alt="cover photo"
           src={
-            userInfo?.companyLogo ||
-            "https://i.ibb.co.com/DPdCjBvr/images-1.jpg"
+            userInfo?.role === "HR"
+              ? userInfo?.companyLogo
+              : "https://i.ibb.co.com/DPdCjBvr/images-1.jpg"
           }
           className="w-[50%] h-[50%] mx-auto mb-4 rounded-t-lg"
         />

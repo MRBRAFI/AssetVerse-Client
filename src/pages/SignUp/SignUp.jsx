@@ -1,41 +1,49 @@
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import { motion } from "framer-motion";
+import {
+  FiUser,
+  FiMail,
+  FiLock,
+  FiCalendar,
+  FiUploadCloud,
+  FiUserPlus,
+} from "react-icons/fi";
+import BackgroundGlow from "../../components/Shared/BackgroundGlow";
+import { ImageUpload } from "../../utils";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, loading, setLoading } = useAuth();
+  const { createUser, updateUserProfile, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state || "/";
+  const from = location.state?.from?.pathname || "/";
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(errors);
+
   const onSubmit = async (data) => {
     const { name, email, password, image, date } = data;
+    const imageFile = image[0];
 
-    const imgageFile = image[0];
-
-    const formData = new FormData();
-    formData.append("image", imgageFile);
+    setIsSigningUp(true);
 
     try {
-      const { data } = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_IMGBB_API_KEY
-        }`,
-        formData
-      );
-      const imageURL = data?.data?.display_url;
+      const imageURL = await ImageUpload(imageFile);
+
+      // 2. Create User
       await createUser(email, password);
       await updateUserProfile(name, imageURL);
 
+      // 3. Save to DB
       const employeeData = {
         name,
         email,
@@ -48,186 +56,215 @@ const SignUp = () => {
         `${import.meta.env.VITE_BACKEND_URL}/users`,
         employeeData
       );
+
       if (response.status === 201 || response.status === 200) {
-        toast.success("Employee Signup Successful!");
+        toast.success("Welcome to AssetVerse!");
         navigate(from, { replace: true });
       } else {
         toast.error(response.data.message || "Signup failed");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Signup failed");
-      setLoading(false);
+      toast.error("Signup failed. Please try again.");
+    } finally {
+      setIsSigningUp(false);
     }
-
-    console.log(data);
   };
 
-  if (loading) {
-    return <LoadingSpinner></LoadingSpinner>;
-  }
+  if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <div className="flex flex-col max-w-99 p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-50 py-12">
+      <BackgroundGlow />
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-lg p-8 sm:p-10 rounded-3xl bg-white/70 backdrop-blur-2xl border border-white/50 shadow-2xl relative z-10"
+      >
         <div className="mb-8 text-center">
-          <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
-          <p className="text-sm text-gray-400">Welcome to PlantNet</p>
+          <motion.div
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-4"
+          >
+            <FiUserPlus className="text-3xl" />
+          </motion.div>
+          <h1 className="text-3xl font-extrabold text-gray-900">
+            Join as Employee
+          </h1>
+          <p className="text-sm text-gray-500 mt-2">
+            Create your account to request and manage assets
+          </p>
         </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate=""
-          action=""
-          className="space-y-6 ng-untouched ng-pristine ng-valid"
-        >
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block mb-2 text-sm">
-                Name
-              </label>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Name */}
+          <div className="space-y-1">
+            <label className="text-sm font-semibold text-gray-700 ml-1">
+              Full Name
+            </label>
+            <div className="relative">
+              <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
-                id="name"
-                placeholder="Your Name"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
+                placeholder="MRB RAFI"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700"
                 {...register("name", {
-                  required: true,
-                  maxLength: {
-                    value: 20,
-                    message: "Name cannot exceed 20 characters",
-                  },
+                  required: "Name is required",
+                  maxLength: 20,
                 })}
               />
-              <div className="h-3 w-70">
-                {errors.name && (
-                  <p className="text-red-600">{errors.name.message}</p>
-                )}
-              </div>
             </div>
-            {/* Image */}
-            <div>
+            {errors.name && (
+              <p className="text-red-500 text-xs ml-1">{errors.name.message}</p>
+            )}
+          </div>
+
+          {/* Profile Image */}
+          <div className="space-y-1">
+            <label className="text-sm font-semibold text-gray-700 ml-1">
+              Profile Photo
+            </label>
+            <div className="relative">
+              <input
+                type="file"
+                accept="image/*"
+                id="image"
+                className="hidden"
+                {...register("image", {
+                  required: "Profile image is required",
+                })}
+              />
               <label
                 htmlFor="image"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition-colors bg-white/50"
               >
-                Profile Image
+                <FiUploadCloud className="text-xl text-blue-500 mr-2" />
+                <span className="text-sm text-gray-600 font-medium">
+                  Click to Upload
+                </span>
               </label>
-              <input
-                name="image"
-                type="file"
-                id="image"
-                accept="image/*"
-                className="
-                block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-md file:border-0
-                file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700
-                hover:file:bg-blue-100
-                bg-gray-100 border border-dashed border-blue-300 rounded-md cursor-pointer
-                focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400
-                y-2"
-                {...register("image")}
-              />
-              <p className="mt-1 text-xs text-gray-400">
-                PNG, JPG or JPEG (max 2MB)
-              </p>
             </div>
-            <div>
-              <label htmlFor="email" className="block mb-2 text-sm">
-                Email address
-              </label>
+            {errors.image && (
+              <p className="text-red-500 text-xs ml-1">
+                {errors.image.message}
+              </p>
+            )}
+          </div>
+
+          {/* Email */}
+          <div className="space-y-1">
+            <label className="text-sm font-semibold text-gray-700 ml-1">
+              Email Address
+            </label>
+            <div className="relative">
+              <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="email"
-                id="email"
-                placeholder="Your Email"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
+                placeholder="mrb@gmail.com"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700"
                 {...register("email", {
-                  required: true,
+                  required: "Email is required",
                   pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Invalid email address",
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email",
                   },
                 })}
               />
-              <div className="h-3 w-70">
-                {errors.email && (
-                  <p className="text-red-600">{errors.email.message}</p>
-                )}
-              </div>
+            </div>
+            {errors.email && (
+              <p className="text-red-500 text-xs ml-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
 
-              {/* Date of Birth */}
-
-              <label htmlFor="email" className="block mb-2 text-sm">
-                Date of Birth{" "}
-              </label>
+          {/* Date of Birth */}
+          <div className="space-y-1">
+            <label className="text-sm font-semibold text-gray-700 ml-1">
+              Date of Birth
+            </label>
+            <div className="relative">
+              <FiCalendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="date"
-                id="date"
-                placeholder="Your Email"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
-                {...register("date", {
-                  required: true,
-                })}
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700"
+                {...register("date", { required: "Date of Birth is required" })}
               />
-              <div className="h-3 w-70"></div>
             </div>
-            <div>
-              <div className="flex justify-between">
-                <label htmlFor="password" className="text-sm mb-2">
-                  Password
-                </label>
-              </div>
+            {errors.date && (
+              <p className="text-red-500 text-xs ml-1">{errors.date.message}</p>
+            )}
+          </div>
+
+          {/* Password */}
+          <div className="space-y-1">
+            <label className="text-sm font-semibold text-gray-700 ml-1">
+              Password
+            </label>
+            <div className="relative">
+              <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="password"
-                autoComplete="new-password"
-                id="password"
-                placeholder="Password"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
+                placeholder="••••••••"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700"
                 {...register("password", {
-                  required: true,
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
-                  },
+                  required: "Password is required",
+                  minLength: { value: 6, message: "Min 6 chars" },
                 })}
               />
-              <div className="h-3 w-70">
-                {errors.password && (
-                  <p className="text-red-600">{errors.password.message}</p>
-                )}
-              </div>
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-xs ml-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
-          <div>
-            <button
-              type="submit"
-              className="bg-blue-400 w-full rounded-md py-3 text-white hover:cursor-pointer"
-            >
-              Continue
-            </button>
-          </div>
-        </form>
-        <div className="flex items-center pt-4 space-x-1">
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-        </div>
-        <p className="px-6 text-sm text-center text-gray-400">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="hover:underline hover:text-blue-500 text-gray-600"
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            disabled={isSigningUp}
+            className={`w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-lg hover:shadow-xl hover:opacity-90 transition-all duration-300 mt-4 ${
+              isSigningUp ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
-            Login
-          </Link>
-          .
-        </p>
-      </div>
+            {isSigningUp ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="loading loading-spinner loading-md"></span>{" "}
+                Creating Account...
+              </span>
+            ) : (
+              "Create Account"
+            )}
+          </motion.button>
+        </form>
+
+        <div className="mt-8 text-center pt-6 border-t border-gray-200/60">
+          <p className="text-sm text-gray-500">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-bold text-blue-600 hover:text-blue-700 hover:underline"
+            >
+              Log in
+            </Link>
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            Want to become an HR?{" "}
+            <Link
+              to="/hr-signup"
+              className="font-bold text-blue-600 hover:text-blue-700 hover:underline"
+            >
+              Join as HR
+            </Link>
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 };

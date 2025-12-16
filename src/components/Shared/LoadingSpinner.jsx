@@ -10,7 +10,7 @@ const LoadingSpinner = ({ smallHeight, message = "Loading..." }) => {
     >
       <div className="flex flex-col items-center">
         <svg
-          className={`${sizeClass} text-blue-500 animate-spin`}
+          className={`${sizeClass} text-indigo-700 animate-spin`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
@@ -30,8 +30,6 @@ const LoadingSpinner = ({ smallHeight, message = "Loading..." }) => {
             d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
           />
         </svg>
-
-        <p className="mt-4 text-gray-600 font-medium">{message}</p>
       </div>
     </div>
   );

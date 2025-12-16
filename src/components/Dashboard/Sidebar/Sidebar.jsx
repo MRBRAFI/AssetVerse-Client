@@ -13,9 +13,11 @@ import AdminMenu from "./Menu/HrMenu";
 import HrMenu from "./Menu/HrMenu";
 import EmployeeMenu from "./Menu/EmployeeMenu";
 import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Sidebar = () => {
   const { user, logOut } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [isActive, setActive] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -25,13 +27,13 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
       .then((res) => {
         setUserInfo(res.data);
       })
       .catch((err) => console.log(err));
-  }, [user?.email]);
+  }, [user?.email, axiosSecure]);
 
   console.log(userInfo);
 
@@ -62,7 +64,7 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+        className={`z-11 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
           isActive && "-translate-x-full"
         }  md:translate-x-0  transition duration-200 ease-in-out`}
       >

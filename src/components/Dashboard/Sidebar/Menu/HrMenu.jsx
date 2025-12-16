@@ -22,14 +22,14 @@ const AdminMenu = () => {
       <MenuItem
         icon={FaCodePullRequest}
         label={"All Requests"}
-        address={"/"}
+        address={"/dashboard/manage-requests"}
       ></MenuItem>
 
       {/* My Employees */}
       <MenuItem
         icon={FaUserCog}
         label="My Employee List"
-        address="manage-employees"
+        address="/dashboard/manage-employees"
       />
       {/* Upgrade Package */}
       <MenuItem

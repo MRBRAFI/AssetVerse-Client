@@ -1,20 +1,22 @@
+import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
-import { FcGoogle } from "react-icons/fc";
-import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { FiMail, FiLock, FiLogIn } from "react-icons/fi";
+import BackgroundGlow from "../../components/Shared/BackgroundGlow";
 
 const Login = () => {
-  const { signIn, loading, user, setLoading } = useAuth();
+  const { signIn, loading, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -25,139 +27,132 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     const { email, password } = data;
+    setIsLoggingIn(true);
     try {
-      //User Login
       await signIn(email, password);
-
+      // navigation will be handled by re-render with `user` or explicit navigate below, 
+      // but usually if signIn succeeds, user state updates and the `if(user)` above triggers, or we navigate here.
+      // We navigate here to be sure.
       navigate(from, { replace: true });
       toast.success("Login Successful");
     } catch (err) {
       console.log(err);
-      toast.error("uuh oh! Valid Credentials are required");
-      setLoading(false);
+      toast.error("Valid Credentials are required");
+      setIsLoggingIn(false);
     }
   };
 
-  // form submit handler
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const form = event.target;
-  //   const email = form.email.value;
-  //   const password = form.password.value;
-
-  // try {
-  //   //User Login
-  //   await signIn(email, password);
-
-  //   navigate(from, { replace: true });
-  //   toast.success("Login Successful");
-  // } catch (err) {
-  //   console.log(err);
-  //   toast.error(err?.message);
-  // }
-  // };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
-        <div className="mb-8 text-center">
-          <h1 className="my-3 text-4xl font-bold">Log In</h1>
-          <p className="text-sm text-gray-400">
-            Sign in to access your account
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-50">
+      <BackgroundGlow />
+      
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md p-8 sm:p-10 rounded-3xl bg-white/70 backdrop-blur-2xl border border-white/50 shadow-2xl relative z-10"
+      >
+        <div className="mb-10 text-center">
+          <motion.div 
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+            className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-4"
+          >
+             <FiLogIn className="text-3xl" />
+          </motion.div>
+          <h1 className="text-3xl font-extrabold text-gray-900">Welcome Back</h1>
+          <p className="text-sm text-gray-500 mt-2">
+            Sign in to access your AssetVerse dashboard
           </p>
         </div>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate=""
-          action=""
-          className="space-y-6 ng-untouched ng-pristine ng-valid"
-        >
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block mb-2 text-sm">
-                Email address
-              </label>
-              <input
-                type="email"
-                id="email"
-                placeholder="Enter Your Email Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
-                {...register("email", {
-                  required: true,
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Invalid email address",
-                  },
-                })}
-              />
-              <div>
-                {errors.mail && (
-                  <p className="text-red-500 mt-1 text-sm">
-                    {errors.email.message}
-                  </p>
-                )}
+            {/* Email */}
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-semibold text-gray-700 ml-1">Email Address</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <FiMail />
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="mrb@gmail.com"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700 placeholder-gray-400"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: "Invalid email address",
+                    },
+                  })}
+                />
               </div>
+              {errors.email && (
+                <p className="text-red-500 text-xs ml-1">{errors.email.message}</p>
+              )}
             </div>
-            <div>
-              <div className="flex justify-between">
-                <label htmlFor="password" className="text-sm mb-2">
-                  Password
-                </label>
+
+            {/* Password */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-baseline">
+                 <label htmlFor="password" className="text-sm font-semibold text-gray-700 ml-1">Password</label>
+                 <a href="#" className="text-xs text-blue-600 hover:text-blue-700 font-medium">Forgot password?</a>
               </div>
-              <input
-                type="password"
-                autoComplete="current-password"
-                id="password"
-                placeholder="Your Password"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-blue-500 bg-gray-200 text-gray-900"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
-                  },
-                })}
-              />
-              <div>
-                {errors.password && (
-                  <p className="text-red-500 mt-1 text-sm">
-                    {errors.password.message}
-                  </p>
-                )}
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <FiLock />
+                </div>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="••••••••"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700 placeholder-gray-400"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
+                />
               </div>
+              {errors.password && (
+                <p className="text-red-500 text-xs ml-1">{errors.password.message}</p>
+              )}
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              className="bg-blue-400 w-full rounded-md py-3 text-white hover:cursor-pointer"
-            >
-              Continue
-            </button>
-          </div>
-        </form>
-        <div className="space-y-1">
-          <button className="text-xs hover:underline hover:text-blue-500 text-gray-400 cursor-pointer">
-            Forgot password?
-          </button>
-        </div>
-        <div className="flex items-center pt-4 space-x-1">
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-          <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-        </div>
-        <p className="px-6 text-sm text-center text-gray-400">
-          Don&apos;t have an account yet?{" "}
-          <Link
-            state={from}
-            to="/signup"
-            className="hover:underline hover:text-blue-500 text-gray-600"
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            disabled={isLoggingIn}
+            className={`w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 ${isLoggingIn ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
-            Sign up
-          </Link>
-          .
-        </p>
-      </div>
+            {isLoggingIn ? (
+               <span className="flex items-center justify-center gap-2">
+                  <span className="loading loading-spinner loading-md"></span> Signing In...
+                </span>
+            ) : "Sign In"}
+          </motion.button>
+        </form>
+
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500">
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              state={from}
+              className="font-bold text-blue-600 hover:text-blue-700 hover:underline transition-colors"
+            >
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 };
