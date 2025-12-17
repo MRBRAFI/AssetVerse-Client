@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gray-50 pt-20 pb-10 overflow-hidden border-t border-gray-100">
+    <footer className="relative bg-gradient-to-br from-blue-50 via-white to-gray-50 pt-20 pb-10 overflow-hidden border-t border-gray-100">
       {/* Subtle Background Glow for Footer Anchor */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <motion.div

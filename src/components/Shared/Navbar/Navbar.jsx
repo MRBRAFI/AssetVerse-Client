@@ -17,7 +17,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="fixed w-full bg-white z-50 shadow-sm">
+    <div className="fixed w-full bg-gradient-to-r from-blue-50/90 via-white/90 to-blue-50/90 backdrop-blur-md z-50 shadow-sm">
       <div className="py-4 ">
         <Container>
           <div className="flex flex-row  items-center justify-between gap-3 md:gap-0">

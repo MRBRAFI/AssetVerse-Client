@@ -12,9 +12,15 @@ import { cloneElement, useState } from "react";
 import { ImageUpload } from "../../utils";
 import useAuth from "../../hooks/useAuth";
 import { CiSliderHorizontal } from "react-icons/ci";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import LoadingSpinner from "../Shared/LoadingSpinner";
+import ErrorPage from "../../pages/ErrorPage";
 
 const AddAssetForm = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [fileName, setFileName] = useState("");
 
   const handleFileChange = (e) => {
@@ -24,9 +30,39 @@ const AddAssetForm = () => {
   };
 
   const {
+    isPending,
+    isError,
+    mutateAsync,
+    reset: mutationReset,
+  } = useMutation({
+    mutationFn: async (payload) =>
+      await axiosSecure.post(
+        `${import.meta.env.VITE_BACKEND_URL}/assets`,
+        payload
+      ),
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success("Asset added successfully ");
+      mutationReset();
+    },
+    onError: (issue) => {
+      console.log(issue);
+    },
+    onMutate: (payload) => {
+      console.log("I am posting this data", payload);
+    },
+    onSettled: (data, error) => {
+      console.log(data);
+      if (error) console.log(data);
+    },
+    retry: 3,
+  });
+
+  const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -34,21 +70,30 @@ const AddAssetForm = () => {
 
     const numQuantity = Number(quantity);
     const imageFile = image[0];
-    const imageURL = await ImageUpload(imageFile);
 
-    const assetData = {
-      name,
-      quantity: numQuantity,
-      type,
-      image: imageURL,
-      HR: {
-        image: user?.photoURL,
-        name: user?.displayName,
-        email: user?.email,
-      },
-    };
-    console.table(assetData);
+    try {
+      const imageURL = await ImageUpload(imageFile);
+
+      const assetData = {
+        name,
+        quantity: numQuantity,
+        type,
+        image: imageURL,
+        HR: {
+          image: user?.photoURL,
+          name: user?.displayName,
+          email: user?.email,
+        },
+      };
+
+      await mutateAsync(assetData);
+      reset();
+    } catch (iss) {
+      console.log(iss);
+      toast.error(iss);
+    }
   };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-100px)] py-10">
       <motion.div
@@ -243,7 +288,14 @@ const AddAssetForm = () => {
               className="w-full py-4 mt-8 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-xl shadow-blue-200 hover:shadow-2xl hover:shadow-blue-300/50 transition-all flex items-center justify-center gap-2"
             >
               <FiPlus className="text-xl" />
-              Add Asset to Inventory
+              {isPending ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="loading loading-spinner loading-md"></span>{" "}
+                  Processing...
+                </span>
+              ) : (
+                "Add Asset to Inventory"
+              )}
             </motion.button>
           </form>
         </div>
