@@ -1,7 +1,27 @@
 import Card from "./Card";
 import Container from "../Shared/Container";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import LoadingSpinner from "../Shared/LoadingSpinner";
 
 const Assets = () => {
+  const axiosSecure = useAxiosSecure();
+  const { data: assetCluster = [], isLoading } = useQuery({
+    queryKey: ["assets"],
+    queryFn: async () => {
+      const result = await axiosSecure(
+        `${import.meta.env.VITE_BACKEND_URL}/assets`
+      );
+      return result.data;
+    },
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  }
+
+  console.log(assetCluster);
+
   return (
     <section className="py-20 bg-gray-50/50">
       <Container>
@@ -14,20 +34,13 @@ const Assets = () => {
             Efficiently managed, easily accessible.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </div>
+        {assetCluster && assetCluster.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+            {assetCluster.map((asset, index) => (
+              <Card key={index} asset={asset}></Card>
+            ))}
+          </div>
+        ) : null}
       </Container>
     </section>
   );

@@ -58,9 +58,8 @@ const AboutUs = () => {
   ];
 
   return (
-    <section className="relative min-h-screen pt-24 pb-20 overflow-hidden bg-white/50">
+    <section className="relative min-h-screen pt-24 pb-20 overflow-hidden">
       {/* Background Glow Animation */}
-
 
       <Container>
         <motion.div
@@ -90,8 +89,10 @@ const AboutUs = () => {
               variants={itemVariants}
               className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed"
             >
-              Founded in 2024, AssetVerse was born from the frustration of clunky, outdated spreadsheets. 
-              We believe managing your company's physical and digital assets should be as beautiful as it is efficient.
+              Founded in 2024, AssetVerse was born from the frustration of
+              clunky, outdated spreadsheets. We believe managing your company's
+              physical and digital assets should be as beautiful as it is
+              efficient.
             </motion.p>
           </div>
 
@@ -101,19 +102,41 @@ const AboutUs = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24"
           >
             {[
-              { label: "Active Users", value: "12,000+", icon: FiUsers, color: "text-blue-600", bg: "bg-blue-50" },
-              { label: "Assets Tracked", value: "500K+", icon: FiTrendingUp, color: "text-indigo-600", bg: "bg-indigo-50" },
-              { label: "Industry Awards", value: "15+", icon: FiAward, color: "text-purple-600", bg: "bg-purple-50" },
+              {
+                label: "Active Users",
+                value: "12,000+",
+                icon: FiUsers,
+                color: "text-blue-600",
+                bg: "bg-blue-50",
+              },
+              {
+                label: "Assets Tracked",
+                value: "500K+",
+                icon: FiTrendingUp,
+                color: "text-indigo-600",
+                bg: "bg-indigo-50",
+              },
+              {
+                label: "Industry Awards",
+                value: "15+",
+                icon: FiAward,
+                color: "text-purple-600",
+                bg: "bg-purple-50",
+              },
             ].map((stat, index) => (
               <motion.div
                 key={index}
                 whileHover={{ y: -5 }}
                 className="bg-white/60 backdrop-blur-md border border-white/50 p-8 rounded-2xl shadow-lg text-center"
               >
-                <div className={`w-14 h-14 mx-auto ${stat.bg} ${stat.color} rounded-full flex items-center justify-center text-2xl mb-4`}>
+                <div
+                  className={`w-14 h-14 mx-auto ${stat.bg} ${stat.color} rounded-full flex items-center justify-center text-2xl mb-4`}
+                >
                   <stat.icon />
                 </div>
-                <h3 className="text-4xl font-bold text-gray-900 mb-2">{stat.value}</h3>
+                <h3 className="text-4xl font-bold text-gray-900 mb-2">
+                  {stat.value}
+                </h3>
                 <p className="text-gray-500 font-medium">{stat.label}</p>
               </motion.div>
             ))}
@@ -122,7 +145,9 @@ const AboutUs = () => {
           {/* Reviews Section */}
           <div className="mb-16">
             <motion.div variants={itemVariants} className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Loved by Teams Everywhere</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Loved by Teams Everywhere
+              </h2>
               <p className="text-gray-600">Don't just take our word for it.</p>
             </motion.div>
 
@@ -142,8 +167,10 @@ const AboutUs = () => {
                       <FiStar key={i} fill="currentColor" />
                     ))}
                   </div>
-                  <p className="text-gray-600 italic mb-6 flex-grow">"{review.content}"</p>
-                  
+                  <p className="text-gray-600 italic mb-6 flex-grow">
+                    "{review.content}"
+                  </p>
+
                   <div className="flex items-center gap-4 mt-auto">
                     <img
                       src={review.avatar}
@@ -151,8 +178,12 @@ const AboutUs = () => {
                       className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
                     />
                     <div>
-                      <h4 className="font-bold text-gray-900 text-sm">{review.name}</h4>
-                      <p className="text-xs text-gray-500">{review.role}, {review.company}</p>
+                      <h4 className="font-bold text-gray-900 text-sm">
+                        {review.name}
+                      </h4>
+                      <p className="text-xs text-gray-500">
+                        {review.role}, {review.company}
+                      </p>
                     </div>
                   </div>
                 </motion.div>
@@ -165,10 +196,12 @@ const AboutUs = () => {
             variants={itemVariants}
             className="text-center bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-12 text-white relative overflow-hidden shadow-2xl"
           >
-             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -ml-16 -mb-16"></div>
-            
-            <h2 className="text-3xl font-bold mb-4 relative z-10">Ready to optimize your workflow?</h2>
+
+            <h2 className="text-3xl font-bold mb-4 relative z-10">
+              Ready to optimize your workflow?
+            </h2>
             <p className="text-blue-100 mb-8 max-w-xl mx-auto relative z-10">
               Join thousands of teams who trust AssetVerse significantly.
             </p>
@@ -180,7 +213,6 @@ const AboutUs = () => {
               Get Started Now
             </motion.button>
           </motion.div>
-
         </motion.div>
       </Container>
     </section>

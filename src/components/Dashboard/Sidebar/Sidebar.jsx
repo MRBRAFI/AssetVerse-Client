@@ -12,7 +12,6 @@ import MenuItem from "./Menu/MenuItem";
 import AdminMenu from "./Menu/HrMenu";
 import HrMenu from "./Menu/HrMenu";
 import EmployeeMenu from "./Menu/EmployeeMenu";
-import axios from "axios";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Sidebar = () => {
