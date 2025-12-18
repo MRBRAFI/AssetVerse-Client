@@ -57,9 +57,10 @@ const AssetDetails = () => {
   if (isLoading) {
     return <LoadingSpinner></LoadingSpinner>;
   }
-
   const { _id, name, quantity, type, image, description, HR, createdAt } =
     asset;
+
+  const hrEmail = HR.email;
 
   if (isLoading) {
     return (
@@ -68,9 +69,9 @@ const AssetDetails = () => {
       </div>
     );
   }
-
-  console.log(asset);
-  console.log(roleInfo);
+  // console.log(asset);
+  // console.log(roleInfo);
+  console.log(hrEmail);
 
   return (
     <div className="min-h-screen pt-10 pb-20">
@@ -190,24 +191,36 @@ const AssetDetails = () => {
                 className="flex items-center gap-4 pt-4"
               >
                 {roleInfo === "HR" ? (
-                  <>
+                  hrEmail === user.email ? (
+                    <>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
+                      >
+                        <FiEdit2 className="text-xl" />
+                        Edit
+                      </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-red-200 hover:shadow-red-300 transition-all flex items-center justify-center gap-2"
+                      >
+                        <FiTrash2 className="text-xl" />
+                        Delete
+                      </motion.button>
+                    </>
+                  ) : (
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
                     >
-                      <FiEdit2 className="text-xl" />
-                      Edit
+                      <FiCpu className="text-xl" />
+                      <Link to={"/"}>Back To Home</Link>
                     </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-red-200 hover:shadow-red-300 transition-all flex items-center justify-center gap-2"
-                    >
-                      <FiTrash2 className="text-xl" />
-                      Delete
-                    </motion.button>
-                  </>
+                  )
                 ) : (
                   <motion.button
                     whileHover={{ scale: 1.02 }}
