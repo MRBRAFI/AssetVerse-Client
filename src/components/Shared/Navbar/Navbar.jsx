@@ -2,11 +2,12 @@ import Container from "../Container";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Button from "../Button/Button";
 import useAuth from "../../../hooks/useAuth";
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isBlinking, setIsBlinking] = useState(false);
 
@@ -15,6 +16,11 @@ const Navbar = () => {
     window.addEventListener("blink-profile", handleBlink);
     return () => window.removeEventListener("blink-profile", handleBlink);
   }, []);
+
+  const handleLogOut = () => {
+    logOut();
+    navigate("/");
+  };
 
   return (
     <div className="fixed w-full bg-gradient-to-r from-blue-50/90 via-white/90 to-blue-50/90 backdrop-blur-md z-50 shadow-sm">
@@ -108,7 +114,7 @@ const Navbar = () => {
                           Dashboard
                         </Link>
                         <div
-                          onClick={logOut}
+                          onClick={handleLogOut}
                           className="px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer"
                         >
                           Logout

@@ -79,7 +79,7 @@ const AddAssetForm = () => {
         quantity: numQuantity,
         type,
         image: imageURL,
-        createdAt: new Date().toISOString().split("T")[0],
+        createdAt: new Date().toLocaleDateString("en-CA"),
         HR: {
           image: user?.photoURL,
           name: user?.displayName,

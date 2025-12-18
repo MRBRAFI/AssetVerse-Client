@@ -30,7 +30,7 @@ const Login = () => {
     setIsLoggingIn(true);
     try {
       await signIn(email, password);
-      // navigation will be handled by re-render with `user` or explicit navigate below, 
+      // navigation will be handled by re-render with `user` or explicit navigate below,
       // but usually if signIn succeeds, user state updates and the `if(user)` above triggers, or we navigate here.
       // We navigate here to be sure.
       navigate(from, { replace: true });
@@ -45,7 +45,7 @@ const Login = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-50">
       <BackgroundGlow />
-      
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -53,15 +53,17 @@ const Login = () => {
         className="w-full max-w-md p-8 sm:p-10 rounded-3xl bg-white/70 backdrop-blur-2xl border border-white/50 shadow-2xl relative z-10"
       >
         <div className="mb-10 text-center">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 10 }}
             className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-4"
           >
-             <FiLogIn className="text-3xl" />
+            <FiLogIn className="text-3xl" />
           </motion.div>
-          <h1 className="text-3xl font-extrabold text-gray-900">Welcome Back</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">
+            Welcome Back
+          </h1>
           <p className="text-sm text-gray-500 mt-2">
             Sign in to access your AssetVerse dashboard
           </p>
@@ -71,7 +73,12 @@ const Login = () => {
           <div className="space-y-4">
             {/* Email */}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-semibold text-gray-700 ml-1">Email Address</label>
+              <label
+                htmlFor="email"
+                className="text-sm font-semibold text-gray-700 ml-1"
+              >
+                Email Address
+              </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                   <FiMail />
@@ -91,15 +98,27 @@ const Login = () => {
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-xs ml-1">{errors.email.message}</p>
+                <p className="text-red-500 text-xs ml-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
             {/* Password */}
             <div className="space-y-2">
               <div className="flex justify-between items-baseline">
-                 <label htmlFor="password" className="text-sm font-semibold text-gray-700 ml-1">Password</label>
-                 <a href="#" className="text-xs text-blue-600 hover:text-blue-700 font-medium">Forgot password?</a>
+                <label
+                  htmlFor="password"
+                  className="text-sm font-semibold text-gray-700 ml-1"
+                >
+                  Password
+                </label>
+                <a
+                  href="#"
+                  className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Forgot password?
+                </a>
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
@@ -120,7 +139,9 @@ const Login = () => {
                 />
               </div>
               {errors.password && (
-                <p className="text-red-500 text-xs ml-1">{errors.password.message}</p>
+                <p className="text-red-500 text-xs ml-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
           </div>
@@ -130,13 +151,18 @@ const Login = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isLoggingIn}
-            className={`w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 ${isLoggingIn ? 'opacity-70 cursor-not-allowed' : ''}`}
+            className={`w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 ${
+              isLoggingIn ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
             {isLoggingIn ? (
-               <span className="flex items-center justify-center gap-2">
-                  <span className="loading loading-spinner loading-md"></span> Signing In...
-                </span>
-            ) : "Sign In"}
+              <span className="flex items-center justify-center gap-2">
+                <span className="loading loading-spinner loading-md"></span>{" "}
+                Logging In...
+              </span>
+            ) : (
+              "Log In"
+            )}
           </motion.button>
         </form>
 

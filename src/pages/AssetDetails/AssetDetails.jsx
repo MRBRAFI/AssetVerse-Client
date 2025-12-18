@@ -1,7 +1,7 @@
 import Container from "../../components/Shared/Container";
 import PurchaseModal from "../../components/Modal/PurchaseModal";
-import { useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
 import { motion } from "framer-motion";
 import {
   FiCheck,
@@ -13,13 +13,21 @@ import {
 } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import useAuth from "../../hooks/useAuth";
 
 const AssetDetails = () => {
+  const { user } = useAuth();
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
+  const [roleInfo, setRoleInfo] = useState("");
   const axiosSecure = useAxiosSecure();
 
-  const { data: asset = {}, isLoading } = useQuery({
+  const {
+    data: asset = {},
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["assets", id],
     queryFn: async () => {
       const result = await axiosSecure(
@@ -29,9 +37,24 @@ const AssetDetails = () => {
     },
   });
 
+  useEffect(() => {
+    axiosSecure
+      .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
+      .then((res) => {
+        setRoleInfo(res.data.role);
+      })
+      .catch((iss) => {
+        console.log(iss);
+      });
+  }, [axiosSecure, user]);
+
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  }
 
   const { _id, name, quantity, type, image, description, HR, createdAt } =
     asset;
@@ -43,6 +66,9 @@ const AssetDetails = () => {
       </div>
     );
   }
+
+  console.log(asset);
+  console.log(roleInfo);
 
   return (
     <div className="min-h-screen pt-10 pb-20">
@@ -119,7 +145,7 @@ const AssetDetails = () => {
 
                 <div className="border-t border-gray-100 my-8"></div>
 
-                {/* Seller/HR Info */}
+                {/* HR Info */}
                 <div className="flex items-center justify-between mb-8 p-4 bg-blue-50/50 rounded-2xl border border-blue-100">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
@@ -161,15 +187,25 @@ const AssetDetails = () => {
                 transition={{ delay: 0.5 }}
                 // className="flex items-center justify-between gap-6 pt-4"
               >
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setIsOpen(true)}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
-                >
-                  <FiCpu className="text-xl" />
-                  Request Item
-                </motion.button>
+                {roleInfo === "HR" ? (
+                  <Link
+                    to={"/"}
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
+                  >
+                    <FiCpu className="text-xl" />
+                    Get back to home
+                  </Link>
+                ) : (
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setIsOpen(true)}
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
+                  >
+                    <FiCpu className="text-xl" />
+                    Request Item
+                  </motion.button>
+                )}
               </motion.div>
             </div>
           </div>
