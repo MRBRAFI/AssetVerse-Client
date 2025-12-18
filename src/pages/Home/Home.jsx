@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import Assets from "../../components/Home/Assets";
 import Banner from "../../components/Home/Banner";
 import AboutUs from "../AboutUs/AboutUs";
@@ -11,6 +12,7 @@ const Home = () => {
       <AboutUsHome></AboutUsHome>
       <Packages></Packages>
       <Assets />
+
       {/* More components */}
     </div>
   );

@@ -19,6 +19,7 @@ import ContactUs from "../pages/ContactUs.jsx/ContactUs";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import Packages from "../pages/Dashboard/HR/Packages";
 import AssetList from "../pages/Dashboard/Admin/AssetList";
+import AllAssetsPublic from "../pages/AssetDetails/AllAssetsPublic";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "/about-us",
         element: <AboutUs></AboutUs>,
+      },
+      {
+        path: "/all-assets-public",
+        element: <AllAssetsPublic></AllAssetsPublic>,
       },
     ],
   },

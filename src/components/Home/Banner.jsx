@@ -57,10 +57,9 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white/50 pt-16 pb-20 lg:pt-24 lg:pb-32">
+    <section className="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32">
       {/* Background decoration */}
       {/* Background decoration */}
-
 
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-center">

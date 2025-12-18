@@ -15,7 +15,7 @@ const AssetList = () => {
       const result = await axiosSecure(
         `${import.meta.env.VITE_BACKEND_URL}/assets`
       );
-      return result.data;
+      return result.data.result;
     },
   });
 

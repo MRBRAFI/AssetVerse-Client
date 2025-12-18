@@ -3,6 +3,7 @@ import Container from "../Shared/Container";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import LoadingSpinner from "../Shared/LoadingSpinner";
+import { Link } from "react-router";
 
 const Assets = () => {
   const axiosSecure = useAxiosSecure();
@@ -10,11 +11,13 @@ const Assets = () => {
     queryKey: ["assets"],
     queryFn: async () => {
       const result = await axiosSecure(
-        `${import.meta.env.VITE_BACKEND_URL}/assets`
+        `${import.meta.env.VITE_BACKEND_URL}/assets?limit=10`
       );
-      return result.data;
+      return result.data.result;
     },
   });
+
+  console.log(assetCluster);
 
   if (isLoading) {
     return <LoadingSpinner></LoadingSpinner>;
@@ -39,6 +42,14 @@ const Assets = () => {
             ))}
           </div>
         ) : null}
+        <div className="text-center mt-20">
+          <Link
+            to={"/all-assets-public"}
+            className="btn btn-primary text-xl font-semibold text-white "
+          >
+            All Assets
+          </Link>
+        </div>
       </Container>
     </section>
   );

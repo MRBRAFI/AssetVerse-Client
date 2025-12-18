@@ -52,6 +52,12 @@ const Navbar = () => {
               >
                 Contact Us
               </Link>
+              <Link
+                to={"/all-assets-public"}
+                className="btn btn-primary text-xl font-semibold text-white"
+              >
+                All Assets
+              </Link>
             </div>
             {/* Dropdown Menu */}
             <div className="relative w-20">
@@ -106,6 +112,12 @@ const Navbar = () => {
                           className="flex md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
                         >
                           Contact Us
+                        </Link>
+                        <Link
+                          to={"/all-assets-public"}
+                          className="flex md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                        >
+                          All Assets
                         </Link>
                         <Link
                           to="/dashboard"
