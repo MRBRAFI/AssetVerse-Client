@@ -18,6 +18,7 @@ import HrSignUp from "../pages/SignUp/HrSignUp/HrSignUp";
 import ContactUs from "../pages/ContactUs.jsx/ContactUs";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import Packages from "../pages/Dashboard/HR/Packages";
+import AssetList from "../pages/Dashboard/Admin/AssetList";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +68,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddAsset></AddAsset>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "all-asset",
+        element: (
+          <PrivateRoute>
+            <AssetList></AssetList>
           </PrivateRoute>
         ),
       },

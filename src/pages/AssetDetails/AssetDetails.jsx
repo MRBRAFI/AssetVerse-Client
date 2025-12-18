@@ -10,6 +10,8 @@ import {
   FiShield,
   FiTag,
   FiUser,
+  FiEdit2,
+  FiTrash2,
 } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -185,16 +187,27 @@ const AssetDetails = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                // className="flex items-center justify-between gap-6 pt-4"
+                className="flex items-center gap-4 pt-4"
               >
                 {roleInfo === "HR" ? (
-                  <Link
-                    to={"/"}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
-                  >
-                    <FiCpu className="text-xl" />
-                    Get back to home
-                  </Link>
+                  <>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
+                    >
+                      <FiEdit2 className="text-xl" />
+                      Edit
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-red-200 hover:shadow-red-300 transition-all flex items-center justify-center gap-2"
+                    >
+                      <FiTrash2 className="text-xl" />
+                      Delete
+                    </motion.button>
+                  </>
                 ) : (
                   <motion.button
                     whileHover={{ scale: 1.02 }}

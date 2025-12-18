@@ -12,7 +12,7 @@ const AdminMenu = () => {
       <MenuItem
         icon={CiCircleList}
         label="Asset List"
-        address="/dashboard"
+        address="/dashboard/all-asset"
       ></MenuItem>
 
       {/* Add Asset */}
