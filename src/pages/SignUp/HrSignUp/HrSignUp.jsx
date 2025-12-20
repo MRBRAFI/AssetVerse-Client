@@ -66,7 +66,7 @@ const HRSignUp = () => {
       };
 
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/hr`,
         hrData
       );
 
@@ -307,10 +307,13 @@ const HRSignUp = () => {
           </p>
         </div>
         <div className="mt-4 text-center">
-            <Link to="/" className="text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors flex items-center justify-center gap-2">
-                 <FiHome /> Back to Home
-            </Link>
-          </div>
+          <Link
+            to="/"
+            className="text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors flex items-center justify-center gap-2"
+          >
+            <FiHome /> Back to Home
+          </Link>
+        </div>
       </motion.div>
     </div>
   );

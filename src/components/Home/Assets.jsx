@@ -10,9 +10,7 @@ const Assets = () => {
   const { data: assetCluster = [], isLoading } = useQuery({
     queryKey: ["assets"],
     queryFn: async () => {
-      const result = await axiosSecure(
-        `${import.meta.env.VITE_BACKEND_URL}/assets?limit=10`
-      );
+      const result = await axiosSecure("/assets?limit=10");
       return result.data.result;
     },
   });

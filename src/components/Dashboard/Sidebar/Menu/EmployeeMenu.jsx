@@ -10,7 +10,7 @@ const EmployeeMenu = () => {
       <MenuItem
         icon={GiBassetHoundHead}
         label="Request an asset"
-        address="/dashboard"
+        address="/dashboard/all-asset"
       />
       <MenuItem icon={BsMicrosoftTeams} label="My team" address="/" />
     </>

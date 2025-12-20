@@ -226,7 +226,7 @@ const AssetDetails = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setIsOpen(true)}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2 hover:cursor-pointer"
                   >
                     <FiCpu className="text-xl" />
                     Request Item
@@ -239,7 +239,7 @@ const AssetDetails = () => {
       </Container>
 
       {/* Pass needed data to modal if strictly required, or keep basic logic */}
-      <PurchaseModal closeModal={closeModal} isOpen={isOpen} />
+      <PurchaseModal asset={asset} closeModal={closeModal} isOpen={isOpen} />
     </div>
   );
 };

@@ -8,7 +8,7 @@ import {
   FiServer,
 } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { ImageUpload } from "../../utils";
 import useAuth from "../../hooks/useAuth";
 import { CiSliderHorizontal } from "react-icons/ci";
@@ -17,10 +17,12 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import ErrorPage from "../../pages/ErrorPage";
+import { data } from "react-router";
 
 const AddAssetForm = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [hrInfo, setHrInfo] = useState("");
   const [fileName, setFileName] = useState("");
 
   const handleFileChange = (e) => {
@@ -28,6 +30,15 @@ const AddAssetForm = () => {
       setFileName(e.target.files[0].name);
     }
   };
+
+  useEffect(() => {
+    axiosSecure
+      .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
+      .then((result) => {
+        const hrData = result.data;
+        setHrInfo(hrData);
+      });
+  }, [user.email, setHrInfo, axiosSecure]);
 
   const {
     isPending,
@@ -48,12 +59,12 @@ const AddAssetForm = () => {
     onError: (issue) => {
       console.log(issue);
     },
-    onMutate: (payload) => {
-      console.log("I am posting this data", payload);
+    onMutate: () => {
+      // console.log("I am posting this data", payload);
     },
-    onSettled: (data, error) => {
-      console.log(data);
-      if (error) console.log(data);
+    onSettled: () => {
+      // console.log(data);
+      // if (error) console.log(data);
     },
     retry: 3,
   });
@@ -67,7 +78,7 @@ const AddAssetForm = () => {
 
   const onSubmit = async (data) => {
     const { name, quantity, type, image } = data;
-
+    console.log(data);
     const numQuantity = Number(quantity);
     const imageFile = image[0];
 
@@ -81,13 +92,15 @@ const AddAssetForm = () => {
         image: imageURL,
         createdAt: new Date().toLocaleDateString("en-CA"),
         HR: {
-          image: user?.photoURL,
           name: user?.displayName,
+          image: user?.photoURL,
           email: user?.email,
+          companyName: hrInfo.companyName,
         },
       };
 
       await mutateAsync(assetData);
+      console.log(assetData);
       reset();
     } catch (iss) {
       console.log(iss);

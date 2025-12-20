@@ -49,11 +49,12 @@ const SignUp = () => {
         email,
         password,
         dateOfBirth: date,
-        role: "employee",
+        role: "EMPLOYEE",
+        affiliations: [],
       };
 
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/employee`,
         employeeData
       );
 
