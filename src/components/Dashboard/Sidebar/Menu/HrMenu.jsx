@@ -1,42 +1,44 @@
-import { FaUserCog } from "react-icons/fa";
+import { FiUser, FiPlusCircle, FiList, FiTrendingUp, FiPieChart, FiGitPullRequest } from "react-icons/fi";
 import MenuItem from "./MenuItem";
-import { LuCassetteTape } from "react-icons/lu";
-import { CiCircleList } from "react-icons/ci";
-import { FaCodePullRequest } from "react-icons/fa6";
-import { FaMoneyBillTrendUp } from "react-icons/fa6";
 
 const AdminMenu = () => {
   return (
     <>
-      {/* Asset List */}
+      {/* Analytics */}
       <MenuItem
-        icon={CiCircleList}
-        label="Asset List"
+        icon={FiPieChart}
+        label="Analytics"
+        address="statistics"
+      />
+      {/* Inventory */}
+      <MenuItem
+        icon={FiList}
+        label="Inventory"
         address="/dashboard/all-asset"
-      ></MenuItem>
+      />
 
       {/* Add Asset */}
-      <MenuItem icon={LuCassetteTape} label="Add Assets" address="add-asset" />
+      <MenuItem icon={FiPlusCircle} label="Add Asset" address="add-asset" />
 
-      {/* All requests */}
+      {/* Requests */}
       <MenuItem
-        icon={FaCodePullRequest}
-        label={"All Requests"}
-        address={"/dashboard/manage-requests"}
-      ></MenuItem>
+        icon={FiGitPullRequest}
+        label="Requests"
+        address="/dashboard/manage-requests"
+      />
 
-      {/* My Employees */}
+      {/* Team Members */}
       <MenuItem
-        icon={FaUserCog}
-        label="My Employee List"
+        icon={FiUser}
+        label="Team Members"
         address="/dashboard/manage-employees"
       />
       {/* Upgrade Package */}
       <MenuItem
-        icon={FaMoneyBillTrendUp}
-        label={"Upgrade Package"}
-        address={"/dashboard/my-packages"}
-      ></MenuItem>
+        icon={FiTrendingUp}
+        label="Packages"
+        address="/dashboard/my-packages"
+      />
     </>
   );
 };

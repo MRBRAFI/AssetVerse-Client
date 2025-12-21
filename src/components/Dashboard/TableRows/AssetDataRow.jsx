@@ -3,6 +3,7 @@ import DeleteModal from "../../Modal/DeleteModal";
 import UpdatePlantModal from "../../Modal/UpdatePlantModal";
 
 const AssetDataRow = ({ asset }) => {
+  const {assetImage, assetName, assetType, assignmentData,}
   let [isOpen, setIsOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 

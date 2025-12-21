@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router";
 import Button from "../Button/Button";
 import useAuth from "../../../hooks/useAuth";
+import Logo from "../Logo/Logo";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
@@ -30,12 +31,7 @@ const Navbar = () => {
             {/* Logo */}
             <div>
               <Link to="/">
-                <img
-                  src="https://i.ibb.co.com/8nFLkgbk/Asset-Verse-Logo-5.png"
-                  alt="logo"
-                  width="100"
-                  height="100"
-                />
+                <Logo light />
               </Link>
             </div>
             <div className="hidden md:flex md:gap-5">

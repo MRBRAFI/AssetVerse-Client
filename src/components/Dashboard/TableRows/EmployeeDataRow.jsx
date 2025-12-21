@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { Package, Calendar, Shield } from "lucide-react";
+import { Package } from "lucide-react";
+import { FiUserPlus } from "react-icons/fi";
 
 const EmployeeDataRow = ({ employee, refetch }) => {
   const axiosSecure = useAxiosSecure();
@@ -107,83 +108,85 @@ const EmployeeDataRow = ({ employee, refetch }) => {
   };
 
   return (
-    <tr className="hover:bg-slate-50 transition-colors duration-150 group">
+    <tr className="hover:bg-blue-50/30 transition-colors duration-300 group ring-inset focus-within:ring-2 focus-within:ring-blue-500">
       {/* Employee Info with Photo */}
-      <td className="px-6 py-4 border-b border-slate-200 bg-white">
-        <div className="flex items-center gap-3">
-          <div className="relative">
+      <td className="px-8 py-6 border-b border-gray-100 bg-white group-hover:bg-blue-50/30 transition-colors">
+        <div className="flex items-center gap-4">
+          <div className="relative flex-shrink-0">
+            <div className="absolute inset-0 bg-blue-500 rounded-2xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity" />
             <img
-              src={employee.photo}
+              src={employee.photo || "/placeholder-avatar.png"}
               alt={employee.name}
-              className="w-10 h-10 rounded-full object-cover ring-2 ring-slate-100"
+              className="relative w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-md"
             />
             <div
-              className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white ${
-                employee.status === "active" ? "bg-emerald-500" : "bg-gray-400"
+              className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm ${
+                employee.status === "active" ? "bg-green-500" : "bg-gray-300"
               }`}
             />
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-slate-900">
+          <div className="flex flex-col min-w-0">
+            <span className="text-base font-black text-gray-900 group-hover:text-blue-600 transition-colors truncate uppercase tracking-tight">
               {employee.name}
             </span>
-            <span className="text-xs text-slate-500">{employee.email}</span>
+            <span className="text-xs font-bold text-gray-400 truncate tracking-tight">
+              {employee.email}
+            </span>
           </div>
         </div>
       </td>
 
-      {/* Role */}
-      <td className="px-6 py-4 border-b border-slate-200 bg-white">
-        <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${getRoleBadgeStyles(
-            employee.role
-          )}`}
-        >
-          <Shield className="w-3 h-3" />
-          {employee.name}
-        </span>
-      </td>
-
       {/* Status */}
-      <td className="px-6 py-4 border-b border-slate-200 bg-white">
+      <td className="px-8 py-6 border-b border-gray-100 bg-white group-hover:bg-blue-50/30 transition-colors">
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusStyles(
-            employee.status
-          )}`}
+          className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border-2 ${
+            employee.status === "active"
+              ? "bg-green-50 text-green-600 border-green-100"
+              : "bg-gray-50 text-gray-400 border-gray-100"
+          }`}
         >
-          <div className="w-1.5 h-1.5 rounded-full bg-current" />
-          {employee.status || "Unavailable"}
+          <span className={`w-1.5 h-1.5 rounded-full ${employee.status === 'active' ? 'bg-green-500' : 'bg-gray-400'}`} />
+          {employee.status || "Inactive"}
         </span>
       </td>
 
       {/* Join Date */}
-      <td className="px-6 py-4 border-b border-slate-200 bg-white">
-        <div className="flex items-center gap-2 text-sm text-slate-600">
-          <Calendar className="w-4 h-4 text-slate-400" />
-          {formatDate(employee.joinDate)}
+      <td className="px-8 py-6 border-b border-gray-100 bg-white group-hover:bg-blue-50/30 transition-colors">
+        <div className="flex flex-col">
+          <span className="text-sm font-black text-gray-700">
+            {formatDate(employee.joinDate)}
+          </span>
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+            Registration Date
+          </span>
         </div>
       </td>
 
       {/* Assets Count */}
-      <td className="px-6 py-4 border-b border-slate-200 bg-white">
-        <div className="flex items-center gap-2">
-          <Package className="w-4 h-4 text-slate-400" />
-          <span className="text-sm font-medium text-slate-700">
+      <td className="px-8 py-6 border-b border-gray-100 bg-white group-hover:bg-blue-50/30 transition-colors text-center sm:text-left">
+        <div className="inline-flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-2xl border border-gray-100 group-hover:border-blue-100 transition-colors">
+          <Package className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
+          <span className="text-lg font-black text-gray-900 leading-none">
             {employee.assetsCount || 0}
           </span>
-          <span className="text-xs text-slate-500">assets</span>
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            Assets
+          </span>
         </div>
       </td>
 
       {/* Actions */}
-      <td className="px-6 py-4 border-b border-slate-200 bg-white">
+      <td className="px-8 py-6 border-b border-gray-100 bg-white group-hover:bg-blue-50/30 transition-colors text-center">
         <button
           onClick={handleAssignAsset}
           disabled={loading}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 shadow-sm hover:shadow-md"
+          className="relative group/btn overflow-hidden inline-flex items-center gap-2 px-6 py-3 bg-gray-900 hover:bg-black text-white text-xs font-black uppercase tracking-[0.2em] rounded-2xl transition-all duration-300 disabled:opacity-20 disabled:cursor-not-allowed shadow-xl shadow-gray-200"
         >
-          <Package className="w-4 h-4" />
-          {loading ? "Assigning..." : "Assign Asset"}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+          <FiUserPlus className="relative z-10 w-4 h-4" />
+          <span className="relative z-10">
+            {loading ? "Processing..." : "Assign"}
+          </span>
         </button>
       </td>
     </tr>

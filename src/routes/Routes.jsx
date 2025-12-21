@@ -13,6 +13,7 @@ import MainLayout from "../layouts/MainLayout";
 import MyInventory from "../pages/Dashboard/HR/MyInventory";
 import ManageRequests from "../pages/Dashboard/HR/ManageRequests";
 import MyRequests from "../pages/Dashboard/Employee/MyRequests";
+import MyTeam from "../pages/Dashboard/Employee/MyTeam";
 import { createBrowserRouter } from "react-router";
 import HrSignUp from "../pages/SignUp/HrSignUp/HrSignUp";
 import ContactUs from "../pages/ContactUs.jsx/ContactUs";
@@ -62,6 +63,14 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: (
+          <PrivateRoute>
+            <Statistics />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "statistics",
         element: (
           <PrivateRoute>
             <Statistics />
@@ -129,6 +138,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ManageRequests />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-team",
+        element: (
+          <PrivateRoute>
+            <MyTeam />
           </PrivateRoute>
         ),
       },

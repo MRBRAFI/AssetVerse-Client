@@ -1,18 +1,16 @@
-import { BsFingerprint } from "react-icons/bs";
-import { BsMicrosoftTeams } from "react-icons/bs";
-import { GiBassetHoundHead } from "react-icons/gi";
-
+import { FiPackage, FiSearch, FiUsers } from "react-icons/fi";
 import MenuItem from "./MenuItem";
+
 const EmployeeMenu = () => {
   return (
     <>
-      <MenuItem icon={BsFingerprint} label="My Assets" address="my-inventory" />
+      <MenuItem icon={FiPackage} label="My Assets" address="my-inventory" />
       <MenuItem
-        icon={GiBassetHoundHead}
-        label="Request an asset"
+        icon={FiSearch}
+        label="Request Asset"
         address="/dashboard/all-asset"
       />
-      <MenuItem icon={BsMicrosoftTeams} label="My team" address="/" />
+      <MenuItem icon={FiUsers} label="My Team" address="my-team" />
     </>
   );
 };

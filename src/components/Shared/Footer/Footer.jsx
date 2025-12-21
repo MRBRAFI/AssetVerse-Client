@@ -9,6 +9,8 @@ import { MdEmail } from "react-icons/md";
 import { FiPhone, FiSend } from "react-icons/fi";
 import { motion } from "framer-motion";
 
+import Logo from "../Logo/Logo";
+
 const Footer = () => {
   return (
     <footer className="relative bg-gradient-to-br from-blue-50 via-white to-gray-50 pt-20 pb-10 overflow-hidden border-t border-gray-100">
@@ -45,13 +47,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
           {/* Brand Column */}
           <div className="flex flex-col items-start gap-6">
-            <img
-              src="https://i.ibb.co.com/8nFLkgbk/Asset-Verse-Logo-5.png"
-              alt="AssetVerse"
-              width="120"
-              height="120"
-              className="mb-2"
-            />
+            <Logo light />
             <p className="text-gray-600 leading-relaxed text-sm">
               AssetVerse is the ultimate platform for tracking, securing, and
               optimizing your team's assets. Simplify your workflow today.

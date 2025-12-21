@@ -1,90 +1,91 @@
-const LoadingSpinner = ({ smallHeight, message = "Loading assets..." }) => {
-  const containerHeight = smallHeight ? "h-[200px]" : "h-[70vh]";
-  const sizeClass = smallHeight ? "h-16 w-16" : "h-24 w-24";
-  const iconSize = smallHeight ? "h-6 w-6" : "h-10 w-10";
+import { motion } from "framer-motion";
 
+const LoadingSpinner = ({ smallHeight }) => {
   return (
     <div
-      className={`${containerHeight} flex flex-col justify-center items-center`}
-      role="status"
-      aria-live="polite"
+      className={`relative w-full ${
+        smallHeight ? "h-[200px]" : "h-screen"
+      } flex items-center justify-center bg-white overflow-hidden`}
     >
-      <div className="flex flex-col items-center space-y-6">
-        <div className="relative">
-          <div
-            className={`${sizeClass} rounded-full border-4 border-gray-200 border-t-indigo-600 border-r-indigo-500 animate-spin`}
-            aria-hidden="true"
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative flex flex-col items-center">
+        {/* Futuristic Spinner Core */}
+        <div className="relative w-32 h-32 mb-12">
+          {/* Outer Ring */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 rounded-[2.5rem] border-[3px] border-blue-500/10 border-t-blue-500 border-r-blue-500/40"
+          />
+          
+          {/* Middle Ring - Reverse */}
+          <motion.div
+            animate={{ rotate: -360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-3 rounded-[2rem] border-[3px] border-indigo-500/10 border-b-indigo-500 border-l-indigo-500/40"
           />
 
-          <div
-            className={`${sizeClass} absolute inset-0 rounded-full border-4 border-transparent border-b-purple-400 animate-spin`}
-            style={{ animationDuration: "1.5s", animationDirection: "reverse" }}
-            aria-hidden="true"
-          />
-
+          {/* Inner Pulsing Core */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <svg
-              className={`${iconSize} text-indigo-600 animate-pulse`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
+            <motion.div
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.5, 1, 0.5]
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl shadow-[0_0_30px_rgba(37,99,235,0.4)] flex items-center justify-center"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-              />
-            </svg>
+              <div className="w-4 h-4 bg-white rounded-full animate-pulse shadow-[0_0_15px_white]" />
+            </motion.div>
           </div>
+
+          {/* Orbiting Particles */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="absolute -inset-4"
+          >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-blue-400 rounded-full shadow-[0_0_10px_rgba(96,165,250,0.8)]" />
+          </motion.div>
         </div>
 
-        <div className="flex flex-col items-center space-y-2">
-          <p className="text-gray-700 font-semibold text-lg tracking-wide">
-            {message}
-          </p>
-          <div className="flex space-x-1">
-            <span
-              className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce"
-              style={{ animationDelay: "0ms" }}
-            />
-            <span
-              className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce"
-              style={{ animationDelay: "150ms" }}
-            />
-            <span
-              className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"
-              style={{ animationDelay: "300ms" }}
-            />
-          </div>
-        </div>
-
-        <div className="w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-600 animate-shimmer"
-            style={{
-              width: "50%",
-              animation: "shimmer 2s infinite",
-            }}
+        {/* Loading Text */}
+        <div className="flex flex-col items-center gap-3">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-2"
+          >
+            {"LOADING".split("").map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0.3 }}
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity, 
+                  delay: i * 0.1,
+                  ease: "easeInOut" 
+                }}
+                className="text-lg font-black tracking-[0.4em] text-gray-900"
+              >
+                {char}
+              </motion.span>
+            ))}
+          </motion.div>
+          
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 120 }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"
           />
+          
+          <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Nexus System Synchronizing</span>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(300%);
-          }
-        }
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
-        }
-      `}</style>
     </div>
   );
 };
