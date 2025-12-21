@@ -6,8 +6,9 @@ import { FiSearch, FiFilter } from "react-icons/fi";
 
 const AssetList = () => {
   const axiosSecure = useAxiosSecure();
-  const [searchTerm, setSearchTerm] = useState("");
+   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("all");
+  const [filterType, setFilterType] = useState("all");
 
   const { data: assetsData = [] } = useQuery({
     queryKey: ["assets"],
@@ -21,9 +22,14 @@ const AssetList = () => {
 
   // Filter and sort assets
   const filteredAndSortedAssets = useMemo(() => {
-    let filtered = assetsData.filter((asset) =>
-      asset.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    let filtered = assetsData.filter((asset) => {
+      const matchesSearch = asset.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesType =
+        filterType === "all" ? true : asset.type === filterType;
+      return matchesSearch && matchesType;
+    });
 
     if (sortOrder === "highToLow") {
       filtered.sort((a, b) => b.quantity - a.quantity);
@@ -47,6 +53,19 @@ const AssetList = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+        </div>
+
+        <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3">
+          <FiFilter className="text-gray-400" />
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="bg-white focus:outline-none text-gray-700 font-medium cursor-pointer"
+          >
+            <option value="all">All Types</option>
+            <option value="Returnable">Returnable</option>
+            <option value="Non-returnable">Non-returnable</option>
+          </select>
         </div>
 
         <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-4 py-3">

@@ -5,7 +5,7 @@ const LoadingSpinner = ({ smallHeight, message = "Loading assets..." }) => {
 
   return (
     <div
-      className={`${containerHeight} flex flex-col justify-center items-center bg-gradient-to-br from-gray-50 to-gray-100`}
+      className={`${containerHeight} flex flex-col justify-center items-center`}
       role="status"
       aria-live="polite"
     >

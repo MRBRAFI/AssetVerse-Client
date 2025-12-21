@@ -1,6 +1,7 @@
 import EmployeeDataRow from "../../../components/Dashboard/TableRows/EmployeeDataRow";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
 const ManageEmployees = () => {
   const axiosSecure = useAxiosSecure();
@@ -19,14 +20,8 @@ const ManageEmployees = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <p>Loading employees...</p>
-      </div>
-    );
+    return <LoadingSpinner></LoadingSpinner>;
   }
-
-  console.log(employees);
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -37,13 +32,19 @@ const ManageEmployees = () => {
               <thead>
                 <tr>
                   <th className="px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal">
-                    Email
+                    Photo
                   </th>
                   <th className="px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal">
-                    Role
+                    Name
                   </th>
                   <th className="px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal">
                     Status
+                  </th>
+                  <th className="px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal">
+                    Join Date
+                  </th>
+                  <th className="px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal">
+                    Assets Assigned
                   </th>
                   <th className="px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal">
                     Action

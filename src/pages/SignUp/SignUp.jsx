@@ -48,6 +48,7 @@ const SignUp = () => {
         name,
         email,
         password,
+        image: imageURL,
         dateOfBirth: date,
         role: "EMPLOYEE",
         affiliations: [],
