@@ -1,5 +1,4 @@
 import Container from "../../components/Shared/Container";
-import PurchaseModal from "../../components/Modal/PurchaseModal";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { motion } from "framer-motion";
@@ -17,11 +16,11 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const AssetDetails = () => {
   const { user } = useAuth();
   const { id } = useParams();
-  const [isOpen, setIsOpen] = useState(false);
   const [roleInfo, setRoleInfo] = useState("");
   const axiosSecure = useAxiosSecure();
 
@@ -50,8 +49,62 @@ const AssetDetails = () => {
       });
   }, [axiosSecure, user]);
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const handleRequest = async () => {
+    // 1. Check quantity
+    if (quantity <= 0) {
+      return Swal.fire({
+        icon: "error",
+        title: "Out of Stock",
+        text: "This asset is currently unavailable.",
+      });
+    }
+
+    // 2. Confirmation Alert
+    const confirm = await Swal.fire({
+      title: "Request Asset",
+      html: `
+        <div class="text-left text-sm">
+          <p><strong>Asset:</strong> ${name}</p>
+          <p><strong>Type:</strong> ${type}</p>
+          <p><strong>Manager:</strong> ${HR?.name}</p>
+        </div>
+      `,
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Request it",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    // 3. Send Request
+    try {
+      await axiosSecure.post(`${import.meta.env.VITE_BACKEND_URL}/requests`, {
+        assetId: _id,
+        assetName: name,
+        assetType: type,
+        hrEmail: HR.email,
+        companyName: HR.companyName,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Request Sent",
+        text: "Your request has been sent to HR for approval.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      
+      // Refetch to update quantity if backend decrements immediately (optional)
+      refetch(); 
+
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Request Failed",
+        text: err.response?.data?.message || "Something went wrong.",
+      });
+    }
   };
 
   if (isLoading) {
@@ -225,7 +278,7 @@ const AssetDetails = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => setIsOpen(true)}
+                    onClick={handleRequest}
                     className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2 hover:cursor-pointer"
                   >
                     <FiCpu className="text-xl" />
@@ -237,9 +290,6 @@ const AssetDetails = () => {
           </div>
         </motion.div>
       </Container>
-
-      {/* Pass needed data to modal if strictly required, or keep basic logic */}
-      <PurchaseModal asset={asset} closeModal={closeModal} isOpen={isOpen} />
     </div>
   );
 };

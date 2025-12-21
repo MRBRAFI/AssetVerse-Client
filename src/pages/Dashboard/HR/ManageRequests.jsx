@@ -20,9 +20,6 @@ const ManageRequests = () => {
       return res.data;
     },
   });
-
-  console.log(request);
-
   return (
     <>
       <div className="container mx-auto px-4 sm:px-8">
@@ -73,6 +70,7 @@ const ManageRequests = () => {
                       <SellerRequestDataRow
                         key={index}
                         request={request}
+                        refetch={refetch}
                       ></SellerRequestDataRow>
                     ))}
                   </tbody>
