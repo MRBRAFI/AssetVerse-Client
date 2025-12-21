@@ -20,6 +20,7 @@ import {
   FiCheckCircle,
   FiClock,
   FiTrendingUp,
+  FiCreditCard,
 } from "react-icons/fi";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Container from "../../../components/Shared/Container";
@@ -53,6 +54,23 @@ const HRAnalytics = () => {
       const res = await axiosSecure.get("/analytics/top-requested-assets");
       return res.data;
     },
+  });
+
+  // Fetch payment history
+  const { data: paymentHistory, isLoading: paymentsLoading } = useQuery({
+    queryKey: ["payment-history"],
+    queryFn: async () => {
+      try {
+        const res = await axiosSecure.get("/payments");
+        // Backend returns { success, count, payments }
+        return res.data.payments || [];
+      } catch (error) {
+        console.log("Payment history endpoint not available:", error.message);
+        return [];
+      }
+    },
+    retry: false,
+    enabled: true,
   });
 
   if (overviewLoading || distributionLoading || topAssetsLoading) {
@@ -288,6 +306,99 @@ const HRAnalytics = () => {
             )}
           </motion.div>
         </div>
+
+        {/* Payment History Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 bg-white rounded-[2.5rem] p-8 shadow-2xl shadow-gray-200/20 border border-gray-100"
+        >
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-3 bg-blue-50 rounded-2xl">
+              <FiCreditCard className="text-2xl text-blue-600" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-black text-gray-900">
+                Payment History
+              </h2>
+              <p className="text-sm text-gray-500 font-medium">
+                Your recent subscription transactions
+              </p>
+            </div>
+          </div>
+
+          {paymentHistory && paymentHistory.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="border-b border-gray-100">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      Date
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      Package
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      Amount
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      Transaction ID
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {paymentHistory.map((payment) => (
+                    <tr key={payment._id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {new Date(payment.paymentDate).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                        {payment.packageName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
+                        ${payment.amount}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
+                        {payment.transactionId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            payment.status === "completed"
+                              ? "bg-green-100 text-green-800"
+                              : payment.status === "demo"
+                              ? "bg-amber-100 text-amber-800"
+                              : payment.status === "pending"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {payment.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+              <FiCreditCard className="text-6xl mb-4" />
+              <p className="font-bold text-lg mb-2">No Payment History</p>
+              <p className="text-sm text-gray-500">
+                Your subscription payment transactions will appear here
+              </p>
+            </div>
+          )}
+        </motion.div>
 
         {/* Additional Info Card */}
         <motion.div

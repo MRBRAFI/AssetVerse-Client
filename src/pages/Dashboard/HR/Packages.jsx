@@ -108,15 +108,27 @@ const UpgradePackage = () => {
   }, [user, axiosSecure]);
 
   const handleSelectPackage = (pkg) => {
-    const isCurrent =
-      pkg.name.toLowerCase() ===
-      currentPackageInfo?.subscription?.toLowerCase();
+    const TIER_HIERARCHY = { basic: 1, standard: 2, premium: 3 };
+    const currentSubName = (currentPackageInfo?.subscription || "basic").toLowerCase();
+    const pkgName = pkg.name.toLowerCase();
+    const currentTier = TIER_HIERARCHY[currentSubName] || 0;
+    const pkgTier = TIER_HIERARCHY[pkgName] || 0;
 
-    if (isCurrent) {
+    if (pkgName === currentSubName) {
       Swal.fire({
         icon: "info",
         title: "Current Plan",
-        text: "This is your current package plan.",
+        text: "This is your current active package plan.",
+        confirmButtonColor: "#3b82f6",
+      });
+      return;
+    }
+
+    if (pkgTier < currentTier) {
+      Swal.fire({
+        icon: "warning",
+        title: "Access Denied",
+        text: `You are currently on the ${currentSubName} plan. Downgrades are not available through this portal.`,
         confirmButtonColor: "#3b82f6",
       });
       return;
@@ -324,9 +336,15 @@ const UpgradePackage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {packages.map((pkg, index) => {
             const isPopular = pkg.name === "Standard";
-            const isCurrent =
-              pkg.name.toLowerCase() ===
-              (currentPackageInfo?.subscription || "basic").toLowerCase();
+            const currentSubName = (currentPackageInfo?.subscription || "basic").toLowerCase();
+            const pkgName = pkg.name.toLowerCase();
+            const isCurrent = pkgName === currentSubName;
+
+            // Define hierarchy
+            const TIER_HIERARCHY = { basic: 1, standard: 2, premium: 3 };
+            const currentTier = TIER_HIERARCHY[currentSubName] || 0;
+            const pkgTier = TIER_HIERARCHY[pkgName] || 0;
+            const isLowerTier = pkgTier < currentTier;
 
             return (
               <motion.div
@@ -334,16 +352,16 @@ const UpgradePackage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className={`relative bg-white rounded-[2rem] p-8 shadow-2xl shadow-gray-200/20 border-2 ${
-                  isPopular
-                    ? "border-blue-500"
-                    : isCurrent
+                whileHover={!isCurrent && !isLowerTier ? { y: -10 } : {}}
+                className={`relative bg-white rounded-[2rem] p-8 shadow-2xl shadow-gray-200/20 border-2 transition-all ${
+                  isCurrent
                     ? "border-green-500"
+                    : isPopular
+                    ? "border-blue-500"
                     : "border-gray-100"
-                }`}
+                } ${isLowerTier ? "opacity-60 grayscale-[0.5]" : ""}`}
               >
-                {isPopular && (
+                {isPopular && !isLowerTier && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg">
                     Most Popular
                   </div>
@@ -353,14 +371,19 @@ const UpgradePackage = () => {
                     Current Plan
                   </div>
                 )}
+                {isLowerTier && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gray-400 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg">
+                    Lower Tier
+                  </div>
+                )}
 
                 <div className="mb-8">
                   <div
                     className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
-                      isPopular
-                        ? "bg-blue-50 text-blue-600"
-                        : isCurrent
+                      isCurrent
                         ? "bg-green-50 text-green-600"
+                        : isPopular && !isLowerTier
+                        ? "bg-blue-50 text-blue-600"
                         : "bg-gray-50 text-gray-400"
                     }`}
                   >
@@ -388,10 +411,10 @@ const UpgradePackage = () => {
                     >
                       <div
                         className={`mt-1 p-1 rounded-full ${
-                          isPopular
-                            ? "bg-blue-100 text-blue-600"
-                            : isCurrent
+                          isCurrent
                             ? "bg-green-100 text-green-600"
+                            : isPopular && !isLowerTier
+                            ? "bg-blue-100 text-blue-600"
                             : "bg-gray-100 text-gray-500"
                         }`}
                       >
@@ -404,16 +427,20 @@ const UpgradePackage = () => {
 
                 <button
                   onClick={() => handleSelectPackage(pkg)}
-                  disabled={isCurrent}
+                  disabled={isCurrent || isLowerTier}
                   className={`w-full py-4 rounded-2xl font-bold uppercase tracking-wider transition-all ${
-                    isPopular && !isCurrent
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-2xl hover:shadow-blue-500/50"
-                      : isCurrent
+                    isCurrent || isLowerTier
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : isPopular
+                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-2xl hover:shadow-blue-500/50"
                       : "bg-gray-900 text-white hover:bg-gray-800"
                   }`}
                 >
-                  {isCurrent ? "Current Plan" : "Upgrade Now"}
+                  {isCurrent
+                    ? "Current Plan"
+                    : isLowerTier
+                    ? "Limited Access"
+                    : "Upgrade Now"}
                 </button>
               </motion.div>
             );

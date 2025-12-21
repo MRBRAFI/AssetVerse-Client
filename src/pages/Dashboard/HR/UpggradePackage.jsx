@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { FiCheck, FiPackage, FiAlertCircle } from "react-icons/fi";
 import Container from "../../../components/Shared/Container";
 import Button from "../../../components/Shared/Button/Button";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Packages = () => {
+  const axiosSecure = useAxiosSecure();
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +14,7 @@ const Packages = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosSecure.get(
           `${import.meta.env.VITE_BACKEND_URL}/packages`
         );
         setPackages(response.data);
@@ -26,7 +27,7 @@ const Packages = () => {
     };
 
     fetchPackages();
-  }, []);
+  }, [axiosSecure]);
 
   // Animation Variants
   const containerVariants = {

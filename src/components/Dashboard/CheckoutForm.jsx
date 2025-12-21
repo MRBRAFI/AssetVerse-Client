@@ -1,11 +1,9 @@
-// Create this file: src/components/Dashboard/CheckoutForm.jsx
-
 import React, { useState, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { FiCreditCard, FiAlertCircle } from "react-icons/fi";
-import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const CheckoutForm = ({ selectedPackage, onSuccess }) => {
   const stripe = useStripe();
@@ -17,26 +15,23 @@ const CheckoutForm = ({ selectedPackage, onSuccess }) => {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
     if (selectedPackage) {
+      console.log(
+        "🔄 Creating payment intent for package:",
+        selectedPackage.name
+      );
+
       axiosSecure
         .post("/create-payment-intent", {
           price: selectedPackage.price,
         })
         .then((res) => {
-          if (res.data && res.data.clientSecret) {
-            setClientSecret(res.data.clientSecret);
-          } else {
-            throw new Error("Invalid response from payment server");
-          }
+          console.log("✅ Payment intent created:", res.data.clientSecret);
+          setClientSecret(res.data.clientSecret);
         })
         .catch((error) => {
-          console.error("Payment intent error:", error);
-          const errorMessage = error.response?.data?.error || 
-                              error.message || 
-                              "Failed to initialize payment. Please check your Stripe configuration.";
-          setError(errorMessage);
-          toast.error(errorMessage);
+          console.error("❌ Payment intent error:", error);
+          toast.error("Failed to initialize payment");
         });
     }
   }, [selectedPackage, axiosSecure]);
@@ -57,6 +52,8 @@ const CheckoutForm = ({ selectedPackage, onSuccess }) => {
     setProcessing(true);
     setError("");
 
+    console.log("💳 Starting payment process...");
+
     // Create payment method
     const { error: paymentMethodError, paymentMethod } =
       await stripe.createPaymentMethod({
@@ -65,10 +62,13 @@ const CheckoutForm = ({ selectedPackage, onSuccess }) => {
       });
 
     if (paymentMethodError) {
+      console.error("❌ Payment method error:", paymentMethodError);
       setError(paymentMethodError.message);
       setProcessing(false);
       return;
     }
+
+    console.log("✅ Payment method created:", paymentMethod.id);
 
     // Confirm card payment
     const { error: confirmError, paymentIntent } =
@@ -83,13 +83,15 @@ const CheckoutForm = ({ selectedPackage, onSuccess }) => {
       });
 
     if (confirmError) {
+      console.error("❌ Payment confirmation error:", confirmError);
       setError(confirmError.message);
       setProcessing(false);
       return;
     }
 
     if (paymentIntent.status === "succeeded") {
-      // Save payment info and upgrade package
+      console.log("✅ Payment succeeded:", paymentIntent.id);
+
       try {
         const upgradeData = {
           packageName: selectedPackage.name,
@@ -99,14 +101,26 @@ const CheckoutForm = ({ selectedPackage, onSuccess }) => {
           paymentStatus: "completed",
         };
 
-        await axiosSecure.post("/upgrade-package", upgradeData);
+        console.log("📤 Sending upgrade request:", upgradeData);
+
+        // ✅ Use axiosSecure which includes JWT token
+        const response = await axiosSecure.post(
+          "/upgrade-package",
+          upgradeData
+        );
+
+        console.log("✅ Upgrade response:", response.data);
 
         toast.success("Package upgraded successfully!");
         setProcessing(false);
         onSuccess();
       } catch (error) {
-        console.error("Upgrade error:", error);
-        setError("Payment succeeded but upgrade failed. Contact support.");
+        console.error("❌ Upgrade error:", error);
+        console.error("Error response:", error.response?.data);
+        setError(
+          error.response?.data?.message ||
+            "Payment succeeded but upgrade failed. Contact support."
+        );
         setProcessing(false);
       }
     }
