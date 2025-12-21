@@ -91,7 +91,7 @@ const Banner = () => {
             >
               Track, Secure, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                Nexus Assets
+                Optimize Assets
               </span>
             </motion.h1>
 
@@ -112,7 +112,7 @@ const Banner = () => {
             >
               {!user && (
                   <Button 
-                    label="Initialize Nexus"
+                    label="Get Started"
                     variant="primary"
                     size="lg"
                     onClick={() => window.dispatchEvent(new Event("blink-profile"))}
@@ -120,7 +120,7 @@ const Banner = () => {
               )}
               <Link to="/contact-us">
                 <Button 
-                  label="Reserve Demo"
+                  label="Book a Demo"
                   variant="secondary"
                   size="lg"
                 />

@@ -96,7 +96,7 @@ const SignUp = () => {
             <FiUserPlus className="text-3xl" />
           </motion.div>
           <h1 className="text-4xl font-black text-gray-900 uppercase tracking-tighter">
-            Join the <span className="text-blue-600">Nexus</span>
+            Create <span className="text-blue-600">Account</span>
           </h1>
           <p className="text-sm text-gray-500 mt-2">
             Create your account to request and manage assets
@@ -228,7 +228,7 @@ const SignUp = () => {
           </div>
 
           <Button
-            label={isSigningUp ? "Authorizing..." : "Create Identity"}
+            label={isSigningUp ? "Registering..." : "Sign Up"}
             variant="primary"
             size="lg"
             fullWidth
@@ -240,21 +240,21 @@ const SignUp = () => {
 
         <div className="mt-8 text-center pt-6 border-t border-gray-200/60">
           <p className="text-sm text-gray-500 font-bold uppercase tracking-tight">
-            Existing Identity?{" "}
+            Already have an account?{" "}
             <Link
               to="/login"
               className="text-blue-600 hover:text-blue-700 font-black uppercase tracking-widest text-xs"
             >
-              Verify Session
+              Login
             </Link>
           </p>
           <p className="text-[10px] text-gray-400 mt-4 uppercase font-black tracking-[0.2em]">
-            Elevate Status?{" "}
+            Want to join as an HR Manager?{" "}
             <Link
               to="/hr-signup"
               className="text-indigo-600 hover:text-indigo-700"
             >
-              Initialize as HR Manager
+              Register as HR
             </Link>
           </p>
         </div>

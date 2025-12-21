@@ -148,7 +148,7 @@ const Login = () => {
           </div>
 
           <Button
-            label={isLoggingIn ? "Syncing..." : "Initialize Session"}
+            label={isLoggingIn ? "Logging in..." : "Login"}
             variant="primary"
             size="lg"
             fullWidth
@@ -166,7 +166,7 @@ const Login = () => {
               state={from}
               className="font-black text-blue-600 hover:text-blue-700 transition-colors uppercase text-xs tracking-widest"
             >
-              Initialize Identity
+              Register
             </Link>
           </p>
         </div>

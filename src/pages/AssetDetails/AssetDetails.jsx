@@ -248,14 +248,14 @@ const AssetDetails = () => {
                   hrEmail === user.email ? (
                     <div className="flex flex-col sm:flex-row gap-4 w-full">
                       <Button
-                        label="Modify Profile"
+                        label="Edit Asset"
                         variant="secondary"
                         size="lg"
                         icon={FiEdit2}
                         className="flex-1"
                       />
                       <Button
-                        label="Purge Asset"
+                        label="Delete Asset"
                         variant="danger"
                         size="lg"
                         icon={FiTrash2}
@@ -265,7 +265,7 @@ const AssetDetails = () => {
                   ) : (
                     <Link to="/" className="w-full">
                       <Button
-                        label="Return to Nexus"
+                        label="Back to Home"
                         variant="ghost"
                         size="lg"
                         fullWidth
@@ -275,7 +275,7 @@ const AssetDetails = () => {
                   )
                 ) : (
                   <Button
-                    label="Request Resource"
+                    label="Request Asset"
                     variant="primary"
                     size="lg"
                     fullWidth

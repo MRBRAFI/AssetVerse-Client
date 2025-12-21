@@ -60,7 +60,7 @@ const AboutUsHome = () => {
             <h2 className="text-4xl lg:text-6xl font-black text-gray-900 mb-6 leading-none uppercase tracking-tighter">
               Empowering Teams with <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                Smarter Asset Nexus
+                Smarter Asset Management
               </span>
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -72,7 +72,7 @@ const AboutUsHome = () => {
 
             <Link to="/about-us">
               <Button 
-                label="Initialize Story"
+                label="Learn More"
                 variant="ghost"
                 size="md"
                 icon={FiArrowRight}

@@ -43,7 +43,7 @@ const Navbar = () => {
                 <Button label="Contact" variant="secondary" size="md" icon={FiPhone} />
               </Link>
               <Link to="/all-assets-public">
-                <Button label="Assets" variant="primary" size="md" icon={FiPackage} />
+                <Button label="All Assets" variant="primary" size="md" icon={FiPackage} />
               </Link>
             </div>
             {/* Dropdown Menu */}
@@ -109,7 +109,7 @@ const Navbar = () => {
 
                         <Link to="/dashboard">
                           <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700 flex items-center gap-3">
-                            <FiLayout className="text-blue-500" /> Control Center
+                            <FiLayout className="text-blue-500" /> Dashboard
                           </div>
                         </Link>
                         
@@ -118,7 +118,7 @@ const Navbar = () => {
                             onClick={handleLogOut}
                             className="px-5 py-3 hover:bg-red-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-red-600 flex items-center gap-3 cursor-pointer"
                           >
-                            <FiLogOut /> Termination
+                            <FiLogOut /> Logout
                           </div>
                         </div>
                       </>
@@ -126,17 +126,17 @@ const Navbar = () => {
                       <>
                         <Link to="/login">
                           <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-blue-600 flex items-center gap-3">
-                            Verify Identity
+                            <FiLayout className="text-blue-500" /> Login
                           </div>
                         </Link>
                         <Link to="/hr-signup">
                           <div className="px-5 py-3 hover:bg-indigo-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-indigo-600">
-                            Initialize HR Nexus
+                            Join as HR Manager
                           </div>
                         </Link>
                         <Link to="/signup">
                           <div className="px-5 py-3 hover:bg-slate-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700">
-                            Join Personnel
+                            Join as Employee
                           </div>
                         </Link>
                       </>

@@ -5,19 +5,29 @@ import AboutUs from "../AboutUs/AboutUs";
 import AboutUsHome from "../AboutUs/AboutUsHome";
 import Packages from "../Dashboard/HR/Packages";
 import useAuth from "../../hooks/useAuth";
+import useRole from "../../hooks/useRole";
+
+import Features from "../../components/Home/Features";
+import HowItWorks from "../../components/Home/HowItWorks";
+import TestimonialsAndStats from "../../components/Home/TestimonialsAndStats";
+import FAQ from "../../components/Home/FAQ";
+import ContactCTA from "../../components/Home/ContactCTA";
 
 const Home = () => {
   const { user } = useAuth();
+  const [role] = useRole();
 
-  console.log(user);
   return (
     <div>
-      <Banner></Banner>
-      <AboutUsHome></AboutUsHome>
-      <Packages></Packages>
+      <Banner />
+      <Features />
+      <HowItWorks />
+      <AboutUsHome />
+      <TestimonialsAndStats />
+      {role === "HR" && <Packages />}
       <Assets />
-
-      {/* More components */}
+      <FAQ />
+      <ContactCTA />
     </div>
   );
 };

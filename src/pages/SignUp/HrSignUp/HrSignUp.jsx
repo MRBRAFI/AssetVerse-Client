@@ -113,7 +113,6 @@ const HRSignUp = () => {
           </h1>
           <p className="text-sm text-gray-500 mt-2">
             Create an organization, manage employees, and track assets
-            efficiently
           </p>
         </div>
 
@@ -276,7 +275,7 @@ const HRSignUp = () => {
 
           <div className="md:col-span-2 mt-4">
             <Button
-              label={isSigningUp ? "Processing..." : "Initialize Corporation"}
+              label={isSigningUp ? "Processing..." : "Register Organization"}
               variant="action"
               size="lg"
               fullWidth
@@ -288,12 +287,12 @@ const HRSignUp = () => {
 
         <div className="mt-8 text-center pt-6 border-t border-gray-200/60">
           <p className="text-sm text-gray-500 font-bold uppercase tracking-tight">
-            Existing Admin?{" "}
+            Already have an account?{" "}
             <Link
               to="/login"
               className="text-indigo-600 font-black uppercase tracking-widest text-xs"
             >
-              Verify Session
+              Login
             </Link>
           </p>
           <div className="mt-8">
@@ -301,7 +300,7 @@ const HRSignUp = () => {
               to="/"
               className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] hover:text-indigo-600 transition-colors flex items-center justify-center gap-3"
             >
-              <FiHome /> System Return
+              <FiHome /> Back to Home
             </Link>
           </div>
         </div>

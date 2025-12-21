@@ -21,6 +21,7 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import Packages from "../pages/Dashboard/HR/Packages";
 import AssetList from "../pages/Dashboard/Admin/AssetList";
 import AllAssetsPublic from "../pages/AssetDetails/AllAssetsPublic";
+import UpgradePackage from "../pages/Dashboard/HR/Packages";
 
 export const router = createBrowserRouter([
   {
@@ -113,7 +114,7 @@ export const router = createBrowserRouter([
         path: "my-packages",
         element: (
           <PrivateRoute>
-            <Packages></Packages>
+            <UpgradePackage></UpgradePackage>{" "}
           </PrivateRoute>
         ),
       },
