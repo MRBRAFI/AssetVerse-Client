@@ -14,25 +14,14 @@ import HrMenu from "./Menu/HrMenu";
 import EmployeeMenu from "./Menu/EmployeeMenu";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const Sidebar = () => {
-  const { user, logOut } = useAuth();
-  const axiosSecure = useAxiosSecure();
+const Sidebar = ({ userInfo }) => {
+  const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
-
-  useEffect(() => {
-    axiosSecure
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
-      .then((res) => {
-        setUserInfo(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, [user?.email, axiosSecure]);
 
   console.log(userInfo);
 
@@ -88,7 +77,15 @@ const Sidebar = () => {
             {/*  Menu Items */}
             <nav>
               {/* Role-Based Menu */}
-              {userInfo?.role === "HR" ? <HrMenu /> : <EmployeeMenu />}
+              {userInfo?.role === "HR" ? (
+                <HrMenu />
+              ) : userInfo?.role === "EMPLOYEE" ? (
+                <EmployeeMenu />
+              ) : (
+                <div className="flex justify-center items-center w-full h-full">
+                  <Link to={"/"}>This is not Your Place</Link>
+                </div>
+              )}
             </nav>
           </div>
 

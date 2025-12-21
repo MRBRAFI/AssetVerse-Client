@@ -63,7 +63,13 @@ const ManageRequests = () => {
                   </tr>
                 </thead>
                 {isLoading ? (
-                  <LoadingSpinner></LoadingSpinner>
+                  <tbody>
+                    <tr>
+                      <td colSpan={5}>
+                        <LoadingSpinner />
+                      </td>
+                    </tr>
+                  </tbody>
                 ) : (
                   <tbody>
                     {request.map((request, index) => (
@@ -71,7 +77,7 @@ const ManageRequests = () => {
                         key={index}
                         request={request}
                         refetch={refetch}
-                      ></SellerRequestDataRow>
+                      />
                     ))}
                   </tbody>
                 )}
