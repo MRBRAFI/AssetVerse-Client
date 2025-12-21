@@ -9,6 +9,7 @@ import {
 } from "react-icons/fi";
 import { Link } from "react-router"; // or "react-router-dom" depending on version, seeing "react-router" in Routes.jsx
 import Container from "../../components/Shared/Container";
+import Button from "../../components/Shared/Button/Button";
 
 const AboutUsHome = () => {
   const benefits = [
@@ -56,10 +57,10 @@ const AboutUsHome = () => {
             <div className="inline-block py-1 px-3 rounded-full bg-blue-50 text-blue-600 text-sm font-bold tracking-wide uppercase mb-6">
               Who We Are
             </div>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-4xl lg:text-6xl font-black text-gray-900 mb-6 leading-none uppercase tracking-tighter">
               Empowering Teams with <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                Smarter Asset Management
+                Smarter Asset Nexus
               </span>
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -70,15 +71,12 @@ const AboutUsHome = () => {
             </p>
 
             <Link to="/about-us">
-              <motion.button
-                whileHover={{ x: 5 }}
-                className="group flex items-center gap-2 text-blue-600 font-bold text-lg hover:text-blue-700 transition-colors"
-              >
-                Read Our Story
-                <span className="p-2 rounded-full bg-blue-50 group-hover:bg-blue-100 transition-colors">
-                  <FiArrowRight />
-                </span>
-              </motion.button>
+              <Button 
+                label="Initialize Story"
+                variant="ghost"
+                size="md"
+                icon={FiArrowRight}
+              />
             </Link>
           </motion.div>
 

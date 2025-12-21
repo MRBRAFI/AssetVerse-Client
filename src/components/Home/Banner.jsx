@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router";
 import Container from "../Shared/Container";
 import useAuth from "../../hooks/useAuth";
+import Button from "../Shared/Button/Button";
 
 const Banner = () => {
   const heroImage = "https://i.ibb.co.com/9m17TPPk/download-1-1.jpg";
@@ -86,11 +87,11 @@ const Banner = () => {
             {/* Headline */}
             <motion.h1
               variants={itemVariants}
-              className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-tight mb-6"
+              className="text-5xl lg:text-7xl font-black text-gray-900 leading-none mb-8 uppercase tracking-tighter"
             >
               Track, Secure, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                Optimize Assets
+                Nexus Assets
               </span>
             </motion.h1>
 
@@ -107,29 +108,22 @@ const Banner = () => {
             {/* Buttons */}
             <motion.div
               variants={itemVariants}
-              className="flex gap-4 flex-col sm:flex-row mb-12"
+              className="flex gap-5 flex-col sm:flex-row mb-12"
             >
               {!user && (
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={(e) => {
-                    // e.preventDefault(); // Optional: prevent default if you want to stay on page to see blink
-                    window.dispatchEvent(new Event("blink-profile"));
-                  }}
-                  className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-blue-600 text-white font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:shadow-xl transition-all duration-300 hover:cursor-pointer"
-                >
-                  Get Started Free
-                </motion.a>
+                  <Button 
+                    label="Initialize Nexus"
+                    variant="primary"
+                    size="lg"
+                    onClick={() => window.dispatchEvent(new Event("blink-profile"))}
+                  />
               )}
               <Link to="/contact-us">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-white border border-gray-200 text-gray-800 font-semibold shadow-sm hover:border-gray-300 hover:bg-gray-50 transition-all duration-300"
-                >
-                  Book a Demo
-                </motion.div>
+                <Button 
+                  label="Reserve Demo"
+                  variant="secondary"
+                  size="lg"
+                />
               </Link>
             </motion.div>
 

@@ -14,6 +14,7 @@ import AdminMenu from "./Menu/HrMenu";
 import HrMenu from "./Menu/HrMenu";
 import EmployeeMenu from "./Menu/EmployeeMenu";
 import Logo from "../../Shared/Logo/Logo";
+import Button from "../../Shared/Button/Button";
 
 const Sidebar = ({ userInfo }) => {
   const { logOut, user } = useAuth();
@@ -128,21 +129,20 @@ const Sidebar = ({ userInfo }) => {
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-4">
                <MenuItem
                 icon={FiSettings}
                 label="Settings"
                 address="/dashboard/profile"
               />
-              <button
+              <Button 
+                label="Logout System"
+                variant="danger"
+                size="md"
+                fullWidth
+                icon={GrLogout}
                 onClick={logOut}
-                className="group flex w-full items-center px-4 py-3.5 text-gray-400 hover:text-red-500 transition-all duration-300 rounded-2xl hover:bg-red-50"
-              >
-                <div className="p-2.5 rounded-xl bg-gray-50 group-hover:bg-red-500/10 transition-colors">
-                  <GrLogout size={18} />
-                </div>
-                <span className="mx-4 text-sm font-black uppercase tracking-widest leading-none">Logout System</span>
-              </button>
+              />
             </div>
             
             <div className="mt-8 text-center">

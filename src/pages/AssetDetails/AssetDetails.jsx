@@ -17,6 +17,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import Button from "../../components/Shared/Button/Button";
 
 const AssetDetails = () => {
   const { user } = useAuth();
@@ -167,7 +168,7 @@ const AssetDetails = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-2 tracking-tight">
+                  <h1 className="text-4xl lg:text-6xl font-black text-gray-900 mb-2 tracking-tighter uppercase leading-none">
                     {name}
                   </h1>
                   <div className="flex items-center gap-4 text-gray-500 mb-8">
@@ -245,45 +246,42 @@ const AssetDetails = () => {
               >
                 {roleInfo === "HR" ? (
                   hrEmail === user.email ? (
-                    <>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
-                      >
-                        <FiEdit2 className="text-xl" />
-                        Edit
-                      </motion.button>
-
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-red-200 hover:shadow-red-300 transition-all flex items-center justify-center gap-2"
-                      >
-                        <FiTrash2 className="text-xl" />
-                        Delete
-                      </motion.button>
-                    </>
+                    <div className="flex flex-col sm:flex-row gap-4 w-full">
+                      <Button
+                        label="Modify Profile"
+                        variant="secondary"
+                        size="lg"
+                        icon={FiEdit2}
+                        className="flex-1"
+                      />
+                      <Button
+                        label="Purge Asset"
+                        variant="danger"
+                        size="lg"
+                        icon={FiTrash2}
+                        className="flex-1"
+                      />
+                    </div>
                   ) : (
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2"
-                    >
-                      <FiCpu className="text-xl" />
-                      <Link to={"/"}>Back To Home</Link>
-                    </motion.button>
+                    <Link to="/" className="w-full">
+                      <Button
+                        label="Return to Nexus"
+                        variant="ghost"
+                        size="lg"
+                        fullWidth
+                        icon={FiCpu}
+                      />
+                    </Link>
                   )
                 ) : (
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                  <Button
+                    label="Request Resource"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    icon={FiCpu}
                     onClick={handleRequest}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-200 hover:shadow-blue-300 transition-all flex items-center justify-center gap-2 hover:cursor-pointer"
-                  >
-                    <FiCpu className="text-xl" />
-                    Request Item
-                  </motion.button>
+                  />
                 )}
               </motion.div>
             </div>

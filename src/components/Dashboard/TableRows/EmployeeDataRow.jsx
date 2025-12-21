@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Package } from "lucide-react";
 import { FiUserPlus } from "react-icons/fi";
+import Button from "../../Shared/Button/Button";
 
 const EmployeeDataRow = ({ employee, refetch }) => {
   const axiosSecure = useAxiosSecure();
@@ -177,17 +178,14 @@ const EmployeeDataRow = ({ employee, refetch }) => {
 
       {/* Actions */}
       <td className="px-8 py-6 border-b border-gray-100 bg-white group-hover:bg-blue-50/30 transition-colors text-center">
-        <button
+        <Button
+          label={loading ? "SYNCING..." : "ASSIGN"}
+          variant="action"
+          size="sm"
+          icon={FiUserPlus}
           onClick={handleAssignAsset}
           disabled={loading}
-          className="relative group/btn overflow-hidden inline-flex items-center gap-2 px-6 py-3 bg-gray-900 hover:bg-black text-white text-xs font-black uppercase tracking-[0.2em] rounded-2xl transition-all duration-300 disabled:opacity-20 disabled:cursor-not-allowed shadow-xl shadow-gray-200"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
-          <FiUserPlus className="relative z-10 w-4 h-4" />
-          <span className="relative z-10">
-            {loading ? "Processing..." : "Assign"}
-          </span>
-        </button>
+        />
       </td>
     </tr>
   );

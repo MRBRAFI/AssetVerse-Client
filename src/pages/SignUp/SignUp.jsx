@@ -16,6 +16,7 @@ import {
 } from "react-icons/fi";
 import BackgroundGlow from "../../components/Shared/BackgroundGlow";
 import { ImageUpload } from "../../utils";
+import Button from "../../components/Shared/Button/Button";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, loading } = useAuth();
@@ -94,8 +95,8 @@ const SignUp = () => {
           >
             <FiUserPlus className="text-3xl" />
           </motion.div>
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            Join as Employee
+          <h1 className="text-4xl font-black text-gray-900 uppercase tracking-tighter">
+            Join the <span className="text-blue-600">Nexus</span>
           </h1>
           <p className="text-sm text-gray-500 mt-2">
             Create your account to request and manage assets
@@ -226,43 +227,34 @@ const SignUp = () => {
             )}
           </div>
 
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit"
+          <Button
+            label={isSigningUp ? "Authorizing..." : "Create Identity"}
+            variant="primary"
+            size="lg"
+            fullWidth
             disabled={isSigningUp}
-            className={`w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-lg hover:shadow-xl hover:opacity-90 transition-all duration-300 mt-4 ${
-              isSigningUp ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-          >
-            {isSigningUp ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="loading loading-spinner loading-md"></span>{" "}
-                Creating Account...
-              </span>
-            ) : (
-              "Create Account"
-            )}
-          </motion.button>
+            icon={isSigningUp ? null : FiUserPlus}
+            className="mt-6"
+          />
         </form>
 
         <div className="mt-8 text-center pt-6 border-t border-gray-200/60">
-          <p className="text-sm text-gray-500">
-            Already have an account?{" "}
+          <p className="text-sm text-gray-500 font-bold uppercase tracking-tight">
+            Existing Identity?{" "}
             <Link
               to="/login"
-              className="font-bold text-blue-600 hover:text-blue-700 hover:underline"
+              className="text-blue-600 hover:text-blue-700 font-black uppercase tracking-widest text-xs"
             >
-              Log in
+              Verify Session
             </Link>
           </p>
-          <p className="text-sm text-gray-500 mt-2">
-            Want to become an HR?{" "}
+          <p className="text-[10px] text-gray-400 mt-4 uppercase font-black tracking-[0.2em]">
+            Elevate Status?{" "}
             <Link
               to="/hr-signup"
-              className="font-bold text-blue-600 hover:text-blue-700 hover:underline"
+              className="text-indigo-600 hover:text-indigo-700"
             >
-              Join as HR
+              Initialize as HR Manager
             </Link>
           </p>
         </div>

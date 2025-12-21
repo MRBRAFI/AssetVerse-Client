@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FiCheck, FiX, FiClock } from "react-icons/fi";
+import Button from "../../Shared/Button/Button";
 
 const SellerRequestDataRow = ({ request, refetch }) => {
   const axiosSecure = useAxiosSecure();
@@ -122,24 +123,27 @@ const SellerRequestDataRow = ({ request, refetch }) => {
 
       {/* Actions */}
       <td className="px-8 py-6 border-b border-gray-100 bg-white group-hover:bg-blue-50/30 transition-colors">
-        <div className="flex gap-3 justify-center">
-          <button
+        <div className="flex gap-2 justify-center">
+          <Button
+            label=""
+            variant="success"
+            size="sm"
+            icon={FiCheck}
             onClick={() => handleAction("approve")}
             disabled={localStatus !== "pending" || loading}
-            className="group/action overflow-hidden relative p-3 bg-white border-2 border-green-100 text-green-600 rounded-2xl hover:bg-green-600 hover:text-white hover:border-green-600 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed shadow-lg shadow-green-900/5"
+            className="!px-3"
             title="Approve Request"
-          >
-            <FiCheck className="relative z-10 text-lg" />
-          </button>
-
-          <button
+          />
+          <Button
+            label=""
+            variant="danger"
+            size="sm"
+            icon={FiX}
             onClick={() => handleAction("reject")}
             disabled={localStatus !== "pending" || loading}
-            className="group/action overflow-hidden relative p-3 bg-white border-2 border-red-100 text-red-600 rounded-2xl hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed shadow-lg shadow-red-900/5"
+            className="!px-3"
             title="Reject Request"
-          >
-            <FiX className="relative z-10 text-lg" />
-          </button>
+          />
         </div>
       </td>
     </tr>

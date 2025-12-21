@@ -1,5 +1,6 @@
 import Container from "../Container";
 import { AiOutlineMenu } from "react-icons/ai";
+import { FiInfo, FiPhone, FiPackage, FiLogOut, FiLayout } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router";
@@ -34,25 +35,15 @@ const Navbar = () => {
                 <Logo light />
               </Link>
             </div>
-            <div className="hidden md:flex md:gap-5">
-              <Link
-                to={"/about-us"}
-                className="btn btn-primary text-xl font-semibold text-white"
-              >
-                About Us
+            <div className="hidden md:flex md:gap-4 items-center">
+              <Link to="/about-us">
+                <Button label="About" variant="secondary" size="md" icon={FiInfo} />
               </Link>
-
-              <Link
-                to={"/contact-us"}
-                className="btn btn-primary text-xl font-semibold text-white"
-              >
-                Contact Us
+              <Link to="/contact-us">
+                <Button label="Contact" variant="secondary" size="md" icon={FiPhone} />
               </Link>
-              <Link
-                to={"/all-assets-public"}
-                className="btn btn-primary text-xl font-semibold text-white"
-              >
-                All Assets
+              <Link to="/all-assets-public">
+                <Button label="Assets" variant="primary" size="md" icon={FiPackage} />
               </Link>
             </div>
             {/* Dropdown Menu */}
@@ -87,66 +78,66 @@ const Navbar = () => {
                 </div>
               </div>
               {isOpen && (
-                <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-sm">
-                  <div className="flex flex-col cursor-pointer">
+                <div className="absolute rounded-3xl shadow-2xl w-[60vw] md:w-[250px] bg-white/90 backdrop-blur-xl border border-white/50 overflow-hidden right-0 top-16 text-sm z-50 p-2">
+                  <div className="flex flex-col gap-1">
                     {user ? (
                       <>
-                        <Link
-                          to={"/"}
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Home
+                        <Link to="/">
+                          <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700 flex items-center gap-3">
+                            <FiLayout className="text-blue-500" /> Home
+                          </div>
                         </Link>
-                        <Link
-                          to={"/about-us"}
-                          className="flex md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          About Us
+                        
+                        {/* Mobile Only Links */}
+                        <div className="md:hidden border-t border-gray-100 my-1 pt-1">
+                          <Link to="/about-us">
+                            <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700 flex items-center gap-3">
+                              <FiInfo className="text-blue-500" /> About Us
+                            </div>
+                          </Link>
+                          <Link to="/contact-us">
+                            <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700 flex items-center gap-3">
+                              <FiPhone className="text-blue-500" /> Contact Us
+                            </div>
+                          </Link>
+                          <Link to="/all-assets-public">
+                            <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700 flex items-center gap-3">
+                              <FiPackage className="text-blue-500" /> All Assets
+                            </div>
+                          </Link>
+                        </div>
+
+                        <Link to="/dashboard">
+                          <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700 flex items-center gap-3">
+                            <FiLayout className="text-blue-500" /> Control Center
+                          </div>
                         </Link>
-                        <Link
-                          to={"/contact-us"}
-                          className="flex md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Contact Us
-                        </Link>
-                        <Link
-                          to={"/all-assets-public"}
-                          className="flex md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          All Assets
-                        </Link>
-                        <Link
-                          to="/dashboard"
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Dashboard
-                        </Link>
-                        <div
-                          onClick={handleLogOut}
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer"
-                        >
-                          Logout
+                        
+                        <div className="border-t border-gray-100 mt-1 pt-1">
+                          <div
+                            onClick={handleLogOut}
+                            className="px-5 py-3 hover:bg-red-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-red-600 flex items-center gap-3 cursor-pointer"
+                          >
+                            <FiLogOut /> Termination
+                          </div>
                         </div>
                       </>
                     ) : (
                       <>
-                        <Link
-                          to="/login"
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Login
+                        <Link to="/login">
+                          <div className="px-5 py-3 hover:bg-blue-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-blue-600 flex items-center gap-3">
+                            Verify Identity
+                          </div>
                         </Link>
-                        <Link
-                          to="/hr-signup"
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Join as HR Manager
+                        <Link to="/hr-signup">
+                          <div className="px-5 py-3 hover:bg-indigo-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-indigo-600">
+                            Initialize HR Nexus
+                          </div>
                         </Link>
-                        <Link
-                          to="/signup"
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Join as Employee
+                        <Link to="/signup">
+                          <div className="px-5 py-3 hover:bg-slate-50/50 rounded-2xl transition-all font-black uppercase tracking-widest text-[10px] text-gray-700">
+                            Join Personnel
+                          </div>
                         </Link>
                       </>
                     )}

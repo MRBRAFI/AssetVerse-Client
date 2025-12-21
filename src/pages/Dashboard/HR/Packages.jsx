@@ -3,6 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { FiCheck, FiPackage, FiAlertCircle } from "react-icons/fi";
 import Container from "../../../components/Shared/Container";
+import Button from "../../../components/Shared/Button/Button";
 
 const Packages = () => {
   const [packages, setPackages] = useState([]);
@@ -64,12 +65,12 @@ const Packages = () => {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-red-500 gap-4">
         <FiAlertCircle className="text-5xl" />
         <p className="text-xl font-semibold">{error}</p>
-        <button
+        <Button 
+          label="Retry Connection"
+          variant="primary"
           onClick={() => window.location.reload()}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          Retry
-        </button>
+          size="md"
+        />
       </div>
     );
   }
@@ -87,15 +88,15 @@ const Packages = () => {
           >
             Pricing Plans
           </motion.span>
-          <motion.h1
+          <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6"
+            className="text-4xl md:text-6xl font-black text-gray-900 mb-6 leading-none uppercase tracking-tighter"
           >
-            Choose the perfect plan for <br />
+            Select Your <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              your team's growth
+              Operational Scale
             </span>
           </motion.h1>
           <motion.p
@@ -180,15 +181,12 @@ const Packages = () => {
                   ))}
                 </div>
 
-                <button
-                  className={`w-full py-3.5 rounded-xl font-bold text-lg transition-all duration-300 ${
-                    isPopular
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg hover:shadow-xl hover:opacity-90"
-                      : "bg-white border border-gray-200 text-gray-800 hover:bg-gray-50 hover:border-gray-300"
-                  }`}
-                >
-                  Get Started
-                </button>
+                <Button 
+                  label="Initialize Plan"
+                  variant={isPopular ? "primary" : "secondary"}
+                  size="md"
+                  fullWidth
+                />
               </motion.div>
             );
           })}

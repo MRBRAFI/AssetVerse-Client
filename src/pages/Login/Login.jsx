@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { FiMail, FiLock, FiLogIn } from "react-icons/fi";
 import BackgroundGlow from "../../components/Shared/BackgroundGlow";
+import Button from "../../components/Shared/Button/Button";
 
 const Login = () => {
   const { signIn, loading, user } = useAuth();
@@ -61,8 +62,8 @@ const Login = () => {
           >
             <FiLogIn className="text-3xl" />
           </motion.div>
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            Welcome Back
+          <h1 className="text-4xl font-black text-gray-900 uppercase tracking-tighter">
+            Welcome <span className="text-blue-600">Back</span>
           </h1>
           <p className="text-sm text-gray-500 mt-2">
             Sign in to access your AssetVerse dashboard
@@ -146,24 +147,15 @@ const Login = () => {
             </div>
           </div>
 
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit"
+          <Button
+            label={isLoggingIn ? "Syncing..." : "Initialize Session"}
+            variant="primary"
+            size="lg"
+            fullWidth
             disabled={isLoggingIn}
-            className={`w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 ${
-              isLoggingIn ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-          >
-            {isLoggingIn ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="loading loading-spinner loading-md"></span>{" "}
-                Logging In...
-              </span>
-            ) : (
-              "Log In"
-            )}
-          </motion.button>
+            icon={isLoggingIn ? null : FiLogIn}
+            className="mt-4"
+          />
         </form>
 
         <div className="mt-8 text-center">
@@ -172,9 +164,9 @@ const Login = () => {
             <Link
               to="/signup"
               state={from}
-              className="font-bold text-blue-600 hover:text-blue-700 hover:underline transition-colors"
+              className="font-black text-blue-600 hover:text-blue-700 transition-colors uppercase text-xs tracking-widest"
             >
-              Sign up
+              Initialize Identity
             </Link>
           </p>
         </div>

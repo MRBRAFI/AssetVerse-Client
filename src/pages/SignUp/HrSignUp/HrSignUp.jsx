@@ -18,6 +18,7 @@ import {
 } from "react-icons/fi";
 import BackgroundGlow from "../../../components/Shared/BackgroundGlow";
 import { ImageUpload } from "../../../utils";
+import Button from "../../../components/Shared/Button/Button";
 
 const HRSignUp = () => {
   const { createUser, updateUserProfile, loading } = useAuth();
@@ -107,8 +108,8 @@ const HRSignUp = () => {
           >
             <FiUsers className="text-3xl" />
           </motion.div>
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            Start Your HR Journey
+          <h1 className="text-4xl font-black text-gray-900 uppercase tracking-tighter leading-tight">
+            Register <span className="text-indigo-600">Organization</span>
           </h1>
           <p className="text-sm text-gray-500 mt-2">
             Create an organization, manage employees, and track assets
@@ -274,45 +275,35 @@ const HRSignUp = () => {
           </div>
 
           <div className="md:col-span-2 mt-4">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
+            <Button
+              label={isSigningUp ? "Processing..." : "Initialize Corporation"}
+              variant="action"
+              size="lg"
+              fullWidth
               disabled={isSigningUp}
-              className={`w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg shadow-lg hover:shadow-xl hover:opacity-90 transition-all duration-300 ${
-                isSigningUp ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-            >
-              {isSigningUp ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="loading loading-spinner loading-md"></span>{" "}
-                  Processing...
-                </span>
-              ) : (
-                "Register Organization"
-              )}
-            </motion.button>
+              className="mt-4"
+            />
           </div>
         </form>
 
         <div className="mt-8 text-center pt-6 border-t border-gray-200/60">
-          <p className="text-sm text-gray-500">
-            Already have an account?{" "}
+          <p className="text-sm text-gray-500 font-bold uppercase tracking-tight">
+            Existing Admin?{" "}
             <Link
               to="/login"
-              className="font-bold text-indigo-600 hover:text-indigo-700 hover:underline"
+              className="text-indigo-600 font-black uppercase tracking-widest text-xs"
             >
-              Log in
+              Verify Session
             </Link>
           </p>
-        </div>
-        <div className="mt-4 text-center">
-          <Link
-            to="/"
-            className="text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors flex items-center justify-center gap-2"
-          >
-            <FiHome /> Back to Home
-          </Link>
+          <div className="mt-8">
+            <Link
+              to="/"
+              className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] hover:text-indigo-600 transition-colors flex items-center justify-center gap-3"
+            >
+              <FiHome /> System Return
+            </Link>
+          </div>
         </div>
       </motion.div>
     </div>
