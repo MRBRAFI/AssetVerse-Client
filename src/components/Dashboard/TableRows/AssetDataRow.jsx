@@ -14,7 +14,6 @@ const AssetDataRow = ({ asset }) => {
     setIsOpen(false);
   }
 
-  console.log(asset.assetImage);
 
   return (
     <tr>

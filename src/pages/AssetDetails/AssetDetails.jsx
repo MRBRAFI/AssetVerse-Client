@@ -122,7 +122,6 @@ const AssetDetails = () => {
   }
   // console.log(asset);
   // console.log(roleInfo);
-  console.log(hrEmail);
 
   return (
     <div className="min-h-screen pt-10 pb-20">

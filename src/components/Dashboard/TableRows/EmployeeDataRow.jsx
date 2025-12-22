@@ -26,8 +26,6 @@ const EmployeeDataRow = ({ employee, refetch }) => {
         return;
       }
 
-      console.log(employee);
-
       const { value: selectedAssetId } = await Swal.fire({
         title: `Select asset to assign to ${employee.email}`,
         input: "select",
@@ -78,8 +76,6 @@ const EmployeeDataRow = ({ employee, refetch }) => {
       setLoading(false);
     }
   };
-
-  console.log(employee);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -146,7 +142,11 @@ const EmployeeDataRow = ({ employee, refetch }) => {
               : "bg-gray-50 text-gray-400 border-gray-100"
           }`}
         >
-          <span className={`w-1.5 h-1.5 rounded-full ${employee.status === 'active' ? 'bg-green-500' : 'bg-gray-400'}`} />
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${
+              employee.status === "active" ? "bg-green-500" : "bg-gray-400"
+            }`}
+          />
           {employee.status || "Inactive"}
         </span>
       </td>

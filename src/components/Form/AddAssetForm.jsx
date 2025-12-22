@@ -46,13 +46,10 @@ const AddAssetForm = () => {
   } = useMutation({
     mutationFn: async (payload) => await axiosSecure.post(`/assets`, payload),
     onSuccess: (data) => {
-      console.log(data);
       toast.success("Asset added successfully ");
       mutationReset();
     },
-    onError: (issue) => {
-      console.log(issue);
-    },
+    onError: (issue) => {},
     onMutate: () => {
       // console.log("I am posting this data", payload);
     },
@@ -72,7 +69,6 @@ const AddAssetForm = () => {
 
   const onSubmit = async (data) => {
     const { name, quantity, type, image } = data;
-    console.log(data);
     const numQuantity = Number(quantity);
     const imageFile = image[0];
 
@@ -94,10 +90,8 @@ const AddAssetForm = () => {
       };
 
       await mutateAsync(assetData);
-      console.log(assetData);
       reset();
     } catch (iss) {
-      console.log(iss);
       toast.error(iss);
     }
   };

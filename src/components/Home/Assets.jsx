@@ -15,8 +15,6 @@ const Assets = () => {
     },
   });
 
-  console.log(assetCluster);
-
   if (isLoading) {
     return <LoadingSpinner></LoadingSpinner>;
   }
