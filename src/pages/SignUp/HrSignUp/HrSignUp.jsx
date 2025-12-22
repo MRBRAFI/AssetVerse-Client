@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
-import axios from "axios";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { motion } from "framer-motion";
 import {
@@ -19,9 +18,11 @@ import {
 import BackgroundGlow from "../../../components/Shared/BackgroundGlow";
 import { ImageUpload } from "../../../utils";
 import Button from "../../../components/Shared/Button/Button";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const HRSignUp = () => {
   const { createUser, updateUserProfile, loading } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -66,7 +67,7 @@ const HRSignUp = () => {
         subscription: "basic",
       };
 
-      const response = await axios.post(`/users/hr`, hrData);
+      const response = await axiosSecure.post(`/users/hr`, hrData);
 
       if (response.status === 201 || response.status === 200) {
         toast.success("HR Account Created!");
