@@ -66,10 +66,7 @@ const HRSignUp = () => {
         subscription: "basic",
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/hr`,
-        hrData
-      );
+      const response = await axios.post(`/users/hr`, hrData);
 
       if (response.status === 201 || response.status === 200) {
         toast.success("HR Account Created!");

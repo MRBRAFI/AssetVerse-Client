@@ -55,10 +55,7 @@ const SignUp = () => {
         affiliations: [],
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/users/employee`,
-        employeeData
-      );
+      const response = await axios.post(`/users/employee`, employeeData);
 
       if (response.status === 201 || response.status === 200) {
         toast.success("Welcome to AssetVerse!");

@@ -25,7 +25,7 @@ const Profile = () => {
     if (user?.email) {
       setLoading(true);
       axiosSecure
-        .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
+        .get(`/users/${user.email}`)
         .then((res) => {
           setUserInfo(res.data);
           setLoading(false);
@@ -87,7 +87,9 @@ const Profile = () => {
   return (
     <div
       className={`relative min-h-[calc(100vh-100px)] flex items-center justify-center p-4 md:p-8 overflow-hidden transition-all duration-1000 ${
-        isPremium ? "bg-gradient-to-br from-amber-50 via-yellow-100/30 to-orange-50" : ""
+        isPremium
+          ? "bg-gradient-to-br from-amber-50 via-yellow-100/30 to-orange-50"
+          : ""
       }`}
     >
       <BackgroundGlow />

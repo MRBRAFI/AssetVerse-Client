@@ -29,11 +29,7 @@ const DEFAULT_PACKAGES = [
     name: "Standard",
     employeeLimit: 10,
     price: 8,
-    features: [
-      "All Basic features",
-      "Advanced Analytics",
-      "Priority Support",
-    ],
+    features: ["All Basic features", "Advanced Analytics", "Priority Support"],
   },
   {
     _id: "3",
@@ -62,16 +58,12 @@ const UpgradePackage = () => {
         setLoading(true);
 
         // Fetch user data
-        const userResponse = await axiosSecure.get(
-          `${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`
-        );
+        const userResponse = await axiosSecure.get(`/users/${user.email}`);
         setCurrentPackageInfo(userResponse.data);
 
         // Try to fetch packages from backend, fallback to defaults
         try {
-          const packagesResponse = await axiosSecure.get(
-            `${import.meta.env.VITE_BACKEND_URL}/packages`
-          );
+          const packagesResponse = await axiosSecure.get(`/packages`);
           if (packagesResponse.data && packagesResponse.data.length > 0) {
             setPackages(packagesResponse.data);
           }
@@ -83,7 +75,7 @@ const UpgradePackage = () => {
         // Try to fetch payment history, ignore if not available
         try {
           const historyResponse = await axiosSecure.get(
-            `${import.meta.env.VITE_BACKEND_URL}/payment-history/${user.email}`
+            `/payment-history/${user.email}`
           );
           setPaymentHistory(historyResponse.data || []);
         } catch (error) {
@@ -109,7 +101,9 @@ const UpgradePackage = () => {
 
   const handleSelectPackage = (pkg) => {
     const TIER_HIERARCHY = { basic: 1, standard: 2, premium: 3 };
-    const currentSubName = (currentPackageInfo?.subscription || "basic").toLowerCase();
+    const currentSubName = (
+      currentPackageInfo?.subscription || "basic"
+    ).toLowerCase();
     const pkgName = pkg.name.toLowerCase();
     const currentTier = TIER_HIERARCHY[currentSubName] || 0;
     const pkgTier = TIER_HIERARCHY[pkgName] || 0;
@@ -178,21 +172,16 @@ const UpgradePackage = () => {
 
       try {
         // Try to upgrade via backend
-        await axiosSecure.post(
-          `${import.meta.env.VITE_BACKEND_URL}/upgrade-package`,
-          {
-            packageName: pkg.name,
-            employeeLimit: pkg.employeeLimit,
-            price: pkg.price,
-            transactionId: `demo_${Date.now()}`,
-            paymentStatus: "demo",
-          }
-        );
+        await axiosSecure.post(`/upgrade-package`, {
+          packageName: pkg.name,
+          employeeLimit: pkg.employeeLimit,
+          price: pkg.price,
+          transactionId: `demo_${Date.now()}`,
+          paymentStatus: "demo",
+        });
 
         // Refresh user data
-        const userResponse = await axiosSecure.get(
-          `${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`
-        );
+        const userResponse = await axiosSecure.get(`/users/${user.email}`);
         setCurrentPackageInfo(userResponse.data);
 
         Swal.fire({
@@ -224,14 +213,12 @@ const UpgradePackage = () => {
 
     // Refresh user data
     try {
-      const userResponse = await axiosSecure.get(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`
-      );
+      const userResponse = await axiosSecure.get(`/users/${user.email}`);
       setCurrentPackageInfo(userResponse.data);
 
       try {
         const historyResponse = await axiosSecure.get(
-          `${import.meta.env.VITE_BACKEND_URL}/payment-history/${user.email}`
+          `/payment-history/${user.email}`
         );
         setPaymentHistory(historyResponse.data || []);
       } catch (error) {
@@ -336,7 +323,9 @@ const UpgradePackage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {packages.map((pkg, index) => {
             const isPopular = pkg.name === "Standard";
-            const currentSubName = (currentPackageInfo?.subscription || "basic").toLowerCase();
+            const currentSubName = (
+              currentPackageInfo?.subscription || "basic"
+            ).toLowerCase();
             const pkgName = pkg.name.toLowerCase();
             const isCurrent = pkgName === currentSubName;
 

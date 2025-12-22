@@ -32,16 +32,14 @@ const AssetDetails = () => {
   } = useQuery({
     queryKey: ["assets", id],
     queryFn: async () => {
-      const result = await axiosSecure(
-        `${import.meta.env.VITE_BACKEND_URL}/assets/${id}`
-      );
+      const result = await axiosSecure(`/assets/${id}`);
       return result.data;
     },
   });
 
   useEffect(() => {
     axiosSecure
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
+      .get(`/users/${user.email}`)
       .then((res) => {
         setRoleInfo(res.data.role);
       })
@@ -80,7 +78,7 @@ const AssetDetails = () => {
 
     // 3. Send Request
     try {
-      await axiosSecure.post(`${import.meta.env.VITE_BACKEND_URL}/requests`, {
+      await axiosSecure.post(`/requests`, {
         assetId: _id,
         assetName: name,
         assetType: type,
@@ -95,10 +93,9 @@ const AssetDetails = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-      
-      // Refetch to update quantity if backend decrements immediately (optional)
-      refetch(); 
 
+      // Refetch to update quantity if backend decrements immediately (optional)
+      refetch();
     } catch (err) {
       Swal.fire({
         icon: "error",

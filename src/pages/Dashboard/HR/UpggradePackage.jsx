@@ -14,9 +14,7 @@ const Packages = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const response = await axiosSecure.get(
-          `${import.meta.env.VITE_BACKEND_URL}/packages`
-        );
+        const response = await axiosSecure.get(`/packages`);
         setPackages(response.data);
         setLoading(false);
       } catch (err) {

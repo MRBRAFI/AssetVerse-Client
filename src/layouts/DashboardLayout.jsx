@@ -16,7 +16,7 @@ const DashboardLayout = () => {
   useEffect(() => {
     if (user?.email) {
       axiosSecure
-        .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
+        .get(`/users/${user.email}`)
         .then((res) => {
           setUserInfo(res.data);
           setIsLoadingRole(false);

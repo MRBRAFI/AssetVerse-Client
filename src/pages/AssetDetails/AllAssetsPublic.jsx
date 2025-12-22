@@ -41,9 +41,7 @@ const AllAssetsPublic = () => {
         (sortOrder && sortOrder !== "all");
 
       if (needsClientFiltering) {
-        const result = await axiosSecure(
-          `${import.meta.env.VITE_BACKEND_URL}/assets`
-        );
+        const result = await axiosSecure(`/assets`);
         const allAssets = result.data.result || result.data || [];
 
         let filtered = allAssets;
@@ -69,9 +67,7 @@ const AllAssetsPublic = () => {
         return paginated;
       }
 
-      const url = `${
-        import.meta.env.VITE_BACKEND_URL
-      }/assets?limit=${limit}&skip=${currentPage * limit}`;
+      const url = `/assets?limit=${limit}&skip=${currentPage * limit}`;
       const result = await axiosSecure(url);
       const extractedData = result.data.result;
       const extractedCount = result.data.total;

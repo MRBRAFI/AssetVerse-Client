@@ -17,9 +17,7 @@ const AssetList = () => {
   const { data: assetsData = [], isLoading } = useQuery({
     queryKey: ["assets"],
     queryFn: async () => {
-      const result = await axiosSecure(
-        `${import.meta.env.VITE_BACKEND_URL}/assets`
-      );
+      const result = await axiosSecure(`/assets`);
       // Handle both { result: [] } and raw array responses
       return result.data?.result || result.data || [];
     },

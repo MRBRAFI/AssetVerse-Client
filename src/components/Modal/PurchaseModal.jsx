@@ -12,7 +12,7 @@ const PurchaseModal = ({ closeModal, isOpen, asset }) => {
 
   const handleRequest = async () => {
     try {
-      await axiosSecure.post(`${import.meta.env.VITE_BACKEND_URL}/requests`, {
+      await axiosSecure.post(`/requests`, {
         assetId: asset._id,
         assetName: asset.name,
         assetType: asset.type,

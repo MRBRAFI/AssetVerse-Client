@@ -32,12 +32,10 @@ const AddAssetForm = () => {
   };
 
   useEffect(() => {
-    axiosSecure
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users/${user.email}`)
-      .then((result) => {
-        const hrData = result.data;
-        setHrInfo(hrData);
-      });
+    axiosSecure.get(`/users/${user.email}`).then((result) => {
+      const hrData = result.data;
+      setHrInfo(hrData);
+    });
   }, [user.email, setHrInfo, axiosSecure]);
 
   const {
@@ -46,11 +44,7 @@ const AddAssetForm = () => {
     mutateAsync,
     reset: mutationReset,
   } = useMutation({
-    mutationFn: async (payload) =>
-      await axiosSecure.post(
-        `${import.meta.env.VITE_BACKEND_URL}/assets`,
-        payload
-      ),
+    mutationFn: async (payload) => await axiosSecure.post(`/assets`, payload),
     onSuccess: (data) => {
       console.log(data);
       toast.success("Asset added successfully ");
