@@ -67,7 +67,7 @@ const Sidebar = ({ userInfo }) => {
 
         {/* Logo Section */}
         <div className="relative px-8 pt-10 pb-8">
-          <Link to="/profile">
+          <Link to="/">
             <Logo light />
           </Link>
         </div>
@@ -113,10 +113,7 @@ const Sidebar = ({ userInfo }) => {
         {/* User Info & Footer Section */}
         <div className="relative mt-auto p-6 border-t border-gray-100 bg-white/50 backdrop-blur-md">
           {/* Minimal User Profile */}
-          <div
-            className="flex items-center gap-4 mb-6 px-2 group cursor-pointer"
-            onClick={() => (window.location.href = "/dashboard/profile")}
-          >
+          <div className="flex items-center gap-4 mb-6 px-2 group cursor-pointer">
             <div className="relative flex-shrink-0">
               <div className="absolute inset-0 bg-blue-500 rounded-2xl blur-lg opacity-0 group-hover:opacity-10 transition-opacity" />
               <img
