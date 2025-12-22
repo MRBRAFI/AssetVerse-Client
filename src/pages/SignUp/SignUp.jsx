@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import { motion } from "framer-motion";
 import {
@@ -17,9 +16,11 @@ import {
 import BackgroundGlow from "../../components/Shared/BackgroundGlow";
 import { ImageUpload } from "../../utils";
 import Button from "../../components/Shared/Button/Button";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, loading } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -55,7 +56,7 @@ const SignUp = () => {
         affiliations: [],
       };
 
-      const response = await axios.post(`/users/employee`, employeeData);
+      const response = await axiosSecure.post(`/users/employee`, employeeData);
 
       if (response.status === 201 || response.status === 200) {
         toast.success("Welcome to AssetVerse!");
