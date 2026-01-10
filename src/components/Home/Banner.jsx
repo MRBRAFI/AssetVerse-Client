@@ -79,7 +79,7 @@ const Banner = () => {
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
                 </span>
                 <span className="text-xs font-semibold uppercase tracking-wider">
-                  Asset Intelligence
+                  Asset Verse
                 </span>
               </span>
             </motion.div>
@@ -90,7 +90,7 @@ const Banner = () => {
               className="text-5xl lg:text-7xl font-black text-gray-900 leading-none mb-8 uppercase tracking-tighter"
             >
               Track, Secure, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+              <span className="pr-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 Optimize Assets
               </span>
             </motion.h1>

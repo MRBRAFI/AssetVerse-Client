@@ -26,7 +26,7 @@ const Assets = () => {
           <h2 className="text-3xl lg:text-4xl font-bold text-black mb-4">
             Featured Assets
           </h2>
-          <p className="text-blue-600 max-w-2xl mx-auto">
+          <p className="text-blue-600 max-w-2xl mx-auto font-bold text-xl">
             Explore our most popular items tracked by teams worldwide.
             Efficiently managed, easily accessible.
           </p>

@@ -51,7 +51,7 @@ const HowItWorks = () => {
             className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter leading-none"
           >
             How It{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            <span className="p-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
               Works
             </span>
           </motion.h2>

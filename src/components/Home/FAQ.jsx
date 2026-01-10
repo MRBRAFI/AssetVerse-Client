@@ -49,7 +49,7 @@ const FAQ = () => {
               className="text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter leading-none"
             >
               Frequently Asked{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+              <span className="pr-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                 Questions
               </span>
             </motion.h2>

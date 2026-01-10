@@ -8,23 +8,40 @@ const TestimonialsAndStats = () => {
     {
       name: "Marcus Vane",
       role: "CTO, Tech Solutions",
-      content: "AssetVerse has significantly improved how we track our equipment across multiple locations. The interface is intuitive and efficient.",
+      content:
+        "AssetVerse has significantly improved how we track our equipment across multiple locations. The interface is intuitive and efficient.",
       avatar: "https://i.pravatar.cc/150?u=marcus",
-      rating: 5
+      rating: 5,
     },
     {
       name: "Elara Thorne",
       role: "Operations Manager, Global Systems",
-      content: "The real-time management tools are excellent. We've seen a noticeable reduction in asset loss since using this platform.",
+      content:
+        "The real-time management tools are excellent. We've seen a noticeable reduction in asset loss since using this platform.",
       avatar: "https://i.pravatar.cc/150?u=elara",
-      rating: 5
-    }
+      rating: 5,
+    },
   ];
 
   const stats = [
-    { label: "Active Users", value: "2.5K+", icon: FiGlobe, color: "text-blue-600" },
-    { label: "Managed Assets", value: "185K+", icon: FiCheckCircle, color: "text-indigo-600" },
-    { label: "Success Rate", value: "99.9%", icon: FiAward, color: "text-purple-600" }
+    {
+      label: "Active Users",
+      value: "2.5K+",
+      icon: FiGlobe,
+      color: "text-blue-600",
+    },
+    {
+      label: "Managed Assets",
+      value: "185K+",
+      icon: FiCheckCircle,
+      color: "text-indigo-600",
+    },
+    {
+      label: "Success Rate",
+      value: "99.9%",
+      icon: FiAward,
+      color: "text-purple-600",
+    },
   ];
 
   return (
@@ -49,7 +66,9 @@ const TestimonialsAndStats = () => {
                 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter leading-none"
               >
                 Trusted by <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Companies</span>
+                <span className="pr-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                  Companies
+                </span>
               </motion.h2>
             </div>
 
@@ -75,7 +94,8 @@ const TestimonialsAndStats = () => {
             </div>
 
             <p className="text-gray-500 font-medium leading-relaxed max-w-lg">
-              Our platform is used by companies worldwide to manage their resources efficiently and securely.
+              Our platform is used by companies worldwide to manage their
+              resources efficiently and securely.
             </p>
           </div>
 
@@ -92,14 +112,22 @@ const TestimonialsAndStats = () => {
               >
                 <div className="flex gap-1 mb-6">
                   {[...Array(t.rating)].map((_, i) => (
-                    <FiStar key={i} className="text-amber-400 fill-amber-400" size={16} />
+                    <FiStar
+                      key={i}
+                      className="text-amber-400 fill-amber-400"
+                      size={16}
+                    />
                   ))}
                 </div>
                 <p className="text-lg text-gray-700 font-medium italic leading-relaxed mb-8">
                   "{t.content}"
                 </p>
                 <div className="flex items-center gap-5">
-                  <img src={t.avatar} alt={t.name} className="w-14 h-14 rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-500 shadow-lg" />
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    className="w-14 h-14 rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-500 shadow-lg"
+                  />
                   <div>
                     <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest leading-none mb-1">
                       {t.name}
