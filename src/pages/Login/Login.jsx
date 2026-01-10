@@ -5,7 +5,7 @@ import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { FiMail, FiLock, FiLogIn } from "react-icons/fi";
+import { FiMail, FiLock, FiLogIn, FiHome } from "react-icons/fi";
 import BackgroundGlow from "../../components/Shared/BackgroundGlow";
 import Button from "../../components/Shared/Button/Button";
 
@@ -158,17 +158,25 @@ const Login = () => {
           />
         </form>
 
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500">
+        <div className="mt-8 text-center pt-6 border-t border-gray-200/60">
+          <p className="text-sm text-gray-500 font-bold uppercase tracking-tight">
             Don't have an account?{" "}
             <Link
               to="/signup"
               state={from}
-              className="font-black text-blue-600 hover:text-blue-700 transition-colors uppercase text-xs tracking-widest"
+              className="text-blue-600 hover:text-blue-700 font-black uppercase tracking-widest text-xs"
             >
               Register
             </Link>
           </p>
+          <div className="mt-8">
+            <Link
+              to="/"
+              className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] hover:text-blue-600 transition-colors flex items-center justify-center gap-3"
+            >
+              <FiHome /> Back to Home
+            </Link>
+          </div>
         </div>
       </motion.div>
     </div>

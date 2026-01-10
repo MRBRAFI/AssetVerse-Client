@@ -12,6 +12,7 @@ import {
   FiCalendar,
   FiUploadCloud,
   FiUserPlus,
+  FiHome,
 } from "react-icons/fi";
 import BackgroundGlow from "../../components/Shared/BackgroundGlow";
 import { ImageUpload } from "../../utils";
@@ -255,6 +256,14 @@ const SignUp = () => {
               Register as HR
             </Link>
           </p>
+          <div className="mt-8">
+            <Link
+              to="/"
+              className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] hover:text-blue-600 transition-colors flex items-center justify-center gap-3"
+            >
+              <FiHome /> Back to Home
+            </Link>
+          </div>
         </div>
       </motion.div>
     </div>

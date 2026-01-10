@@ -278,7 +278,7 @@ const HRSignUp = () => {
               size="lg"
               fullWidth
               disabled={isSigningUp}
-              className="mt-4"
+              className="mt-4 bg-primary"
             />
           </div>
         </form>

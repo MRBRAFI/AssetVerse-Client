@@ -111,19 +111,19 @@ const Banner = () => {
               className="flex gap-5 flex-col sm:flex-row mb-12"
             >
               {!user && (
-                  <Button 
+                <Link to={"/hr-signup"}>
+                  <Button
                     label="Get Started"
                     variant="primary"
                     size="lg"
-                    onClick={() => window.dispatchEvent(new Event("blink-profile"))}
+                    onClick={() =>
+                      window.dispatchEvent(new Event("blink-profile"))
+                    }
                   />
+                </Link>
               )}
               <Link to="/contact-us">
-                <Button 
-                  label="Book a Demo"
-                  variant="secondary"
-                  size="lg"
-                />
+                <Button label="Book a Demo" variant="secondary" size="lg" />
               </Link>
             </motion.div>
 

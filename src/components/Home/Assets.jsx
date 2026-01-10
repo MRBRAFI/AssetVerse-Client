@@ -10,7 +10,7 @@ const Assets = () => {
   const { data: assetCluster = [], isLoading } = useQuery({
     queryKey: ["assets"],
     queryFn: async () => {
-      const result = await axiosSecure("/assets?limit=10");
+      const result = await axiosSecure("/assets?limit=8");
       return result.data.result;
     },
   });
@@ -32,7 +32,7 @@ const Assets = () => {
           </p>
         </div>
         {assetCluster && assetCluster.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {assetCluster.map((asset, index) => (
               <Card key={index} asset={asset}></Card>
             ))}

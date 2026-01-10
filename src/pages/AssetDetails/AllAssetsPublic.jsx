@@ -9,6 +9,8 @@ import {
   FiArrowLeft,
   FiPackage,
   FiZap,
+  FiCalendar,
+  FiGrid,
 } from "react-icons/fi";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Container from "../../components/Shared/Container";
@@ -19,26 +21,28 @@ const AllAssetsPublic = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalAssets, setTotalAssets] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
-  const limit = 10;
+  const limit = 8;
 
-  // Reset to first page when search or sort changes
+  // Reset to first page when search, sort or category changes
   React.useEffect(() => {
     setCurrentPage(0);
-  }, [searchTerm, sortOrder]);
+  }, [searchTerm, sortOrder, selectedCategory]);
 
   const {
     data: assetsData = [],
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["assets", currentPage, searchTerm, sortOrder],
+    queryKey: ["assets", currentPage, searchTerm, sortOrder, selectedCategory],
     queryFn: async () => {
       const needsClientFiltering =
         (searchTerm && searchTerm.trim() !== "") ||
-        (sortOrder && sortOrder !== "all");
+        (sortOrder && sortOrder !== "all") ||
+        (selectedCategory && selectedCategory !== "all");
 
       if (needsClientFiltering) {
         const result = await axiosSecure(`/assets`);
@@ -56,6 +60,16 @@ const AllAssetsPublic = () => {
           filtered.sort((a, b) => b.quantity - a.quantity);
         else if (sortOrder === "lowToHigh")
           filtered.sort((a, b) => a.quantity - b.quantity);
+        else if (sortOrder === "newest")
+          filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        else if (sortOrder === "oldest")
+          filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        if (selectedCategory && selectedCategory !== "all") {
+          filtered = filtered.filter(
+            (a) => (a.type || "").toLowerCase() === selectedCategory.toLowerCase()
+          );
+        }
 
         const extractedCount = filtered.length;
         setTotalAssets(extractedCount);
@@ -166,6 +180,24 @@ const AllAssetsPublic = () => {
           <div className="flex flex-col sm:flex-row gap-5">
             <div className="relative group lg:w-64">
               <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
+                <FiGrid
+                  className="text-gray-400 group-focus-within:text-blue-500"
+                  size={18}
+                />
+              </div>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full bg-gray-50/50 border border-gray-100 rounded-[2rem] py-5 pl-14 pr-10 focus:outline-none focus:ring-4 focus:ring-blue-500/5 appearance-none cursor-pointer font-black uppercase text-xs tracking-[0.15em] text-gray-600 hover:border-blue-500/30 transition-all shadow-sm"
+              >
+                <option value="all">CATEGORY: ALL</option>
+                <option value="Returnable">CATEGORY: RETURNABLE</option>
+                <option value="Non-returnable">CATEGORY: NON-RETURNABLE</option>
+              </select>
+            </div>
+
+            <div className="relative group lg:w-64">
+              <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
                 <FiFilter
                   className="text-gray-400 group-focus-within:text-blue-500"
                   size={18}
@@ -177,8 +209,10 @@ const AllAssetsPublic = () => {
                 className="w-full bg-gray-50/50 border border-gray-100 rounded-[2rem] py-5 pl-14 pr-10 focus:outline-none focus:ring-4 focus:ring-blue-500/5 appearance-none cursor-pointer font-black uppercase text-xs tracking-[0.15em] text-gray-600 hover:border-blue-500/30 transition-all shadow-sm"
               >
                 <option value="all">SORT: DEFAULT</option>
-                <option value="highToLow">SORT: VOLUME HIGH</option>
-                <option value="lowToHigh">SORT: VOLUME LOW</option>
+                <option value="newest">SORT: NEWEST FIRST</option>
+                <option value="oldest">SORT: OLDEST FIRST</option>
+                <option value="highToLow">SORT: QUANTITY HIGH</option>
+                <option value="lowToHigh">SORT: QUANTITY LOW</option>
               </select>
             </div>
           </div>
@@ -243,7 +277,7 @@ const AllAssetsPublic = () => {
                 whileHover={{ x: -5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setCurrentPage(currentPage - 1)}
-                className="w-14 h-14 rounded-2xl bg-white border border-gray-100 shadow-lg flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300"
+                className="w-14 hover:cursor-pointer h-14 rounded-2xl bg-white border border-gray-100 shadow-lg flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300"
               >
                 <FiArrowLeft size={24} />
               </motion.button>
@@ -259,7 +293,7 @@ const AllAssetsPublic = () => {
                     setCurrentPage(int);
                     refetch();
                   }}
-                  className={`min-w-[56px] h-14 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-lg ${
+                  className={`hover:cursor-pointer min-w-[56px] h-14 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-lg ${
                     int === currentPage
                       ? "bg-blue-600 text-white shadow-blue-600/30 border-blue-600"
                       : "bg-white text-gray-400 border border-gray-100 hover:border-blue-300 hover:text-blue-500"
@@ -275,17 +309,11 @@ const AllAssetsPublic = () => {
                 whileHover={{ x: 5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setCurrentPage(currentPage + 1)}
-                className="w-14 h-14 rounded-2xl bg-white border border-gray-100 shadow-lg flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300"
+                className="w-14 hover:cursor-pointer h-14 rounded-2xl bg-white border border-gray-100 shadow-lg flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300"
               >
                 <FiArrowRight size={24} />
               </motion.button>
             )}
-          </div>
-
-          <div className="text-center mt-8">
-            <span className="text-[10px] font-black text-gray-300 uppercase tracking-[0.8em]">
-              System Page Sequence Synchronized
-            </span>
           </div>
         </div>
       </Container>
