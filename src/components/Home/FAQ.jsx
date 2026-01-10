@@ -9,24 +9,28 @@ const FAQ = () => {
   const faqs = [
     {
       question: "How secure is the asset management system?",
-      answer: "We use standard encryption and security protocols to ensure that all your asset data is protected against unauthorized access."
+      answer:
+        "We use standard encryption and security protocols to ensure that all your asset data is protected against unauthorized access.",
     },
     {
       question: "Can I import existing data?",
-      answer: "Yes, our system supports bulk data imports via CSV and JSON, allowing you to quickly set up your inventory."
+      answer:
+        "Yes, our system supports bulk data imports via CSV and JSON, allowing you to quickly set up your inventory.",
     },
     {
       question: "What is the employee limit?",
-      answer: "The number of employees you can manage depends on your subscription plan. Our higher tiers support larger teams and multiple departments."
+      answer:
+        "The number of employees you can manage depends on your subscription plan. Our higher tiers support larger teams and multiple departments.",
     },
     {
       question: "Does it work on mobile devices?",
-      answer: "Yes, the AssetVerse platform is fully responsive and works on all modern mobile devices, allowing you to track assets on the go."
-    }
+      answer:
+        "Yes, the AssetVerse platform is fully responsive and works on all modern mobile devices, allowing you to track assets on the go.",
+    },
   ];
 
   return (
-    <section className="py-24 bg-gray-50/30 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden">
       <Container>
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
@@ -44,7 +48,10 @@ const FAQ = () => {
               viewport={{ once: true }}
               className="text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter leading-none"
             >
-              Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Questions</span>
+              Frequently Asked{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Questions
+              </span>
             </motion.h2>
           </div>
 
@@ -59,17 +66,31 @@ const FAQ = () => {
                 className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden"
               >
                 <button
-                  onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                  onClick={() =>
+                    setActiveIndex(activeIndex === index ? null : index)
+                  }
                   className="w-full px-8 py-6 flex items-center justify-between text-left group"
                 >
-                  <span className={`text-sm font-black uppercase tracking-widest transition-colors ${activeIndex === index ? "text-blue-600" : "text-gray-700 group-hover:text-blue-500"}`}>
+                  <span
+                    className={`text-sm font-black uppercase tracking-widest transition-colors ${
+                      activeIndex === index
+                        ? "text-blue-600"
+                        : "text-gray-700 group-hover:text-blue-500"
+                    }`}
+                  >
                     {index + 1}. {faq.question}
                   </span>
-                  <div className={`p-2 rounded-xl transition-all ${activeIndex === index ? "bg-blue-600 text-white" : "bg-gray-50 text-gray-400 group-hover:bg-blue-50 group-hover:text-blue-600"}`}>
+                  <div
+                    className={`p-2 rounded-xl transition-all ${
+                      activeIndex === index
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-50 text-gray-400 group-hover:bg-blue-50 group-hover:text-blue-600"
+                    }`}
+                  >
                     {activeIndex === index ? <FiMinus /> : <FiPlus />}
                   </div>
                 </button>
-                
+
                 <AnimatePresence>
                   {activeIndex === index && (
                     <motion.div

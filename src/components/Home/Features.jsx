@@ -50,9 +50,9 @@ const Features = () => {
   ];
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden">
       {/* Decorative Background */}
-      <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50" />
+      <div className="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full blur-3xl opacity-50" />
       
       <Container>
         <div className="text-center mb-20">

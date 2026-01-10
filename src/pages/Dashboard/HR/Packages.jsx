@@ -232,7 +232,7 @@ const UpgradePackage = () => {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <section className="min-h-screen bg-[#f8fbff] py-12">
+    <section className="min-h-screen py-12">
       <Container>
         {/* Header */}
         <div className="mb-16">

@@ -13,6 +13,8 @@ import {
   FiUploadCloud,
   FiUserPlus,
   FiHome,
+  FiEye,
+  FiEyeOff,
 } from "react-icons/fi";
 import BackgroundGlow from "../../components/Shared/BackgroundGlow";
 import { ImageUpload } from "../../utils";
@@ -26,10 +28,12 @@ const SignUp = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const [isSigningUp, setIsSigningUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -71,6 +75,14 @@ const SignUp = () => {
     } finally {
       setIsSigningUp(false);
     }
+  };
+
+  const handleDemoFill = () => {
+    setValue("name", "Demo Employee");
+    setValue("email", `demo.employee.${Math.floor(Math.random() * 1000)}@gmail.com`);
+    setValue("date", "1998-05-15");
+    setValue("password", "123456");
+    toast.success("Demo details filled! (Please select an image)");
   };
 
   if (loading) return <LoadingSpinner />;
@@ -210,14 +222,21 @@ const SignUp = () => {
             <div className="relative">
               <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700"
+                className="w-full pl-10 pr-12 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700"
                 {...register("password", {
                   required: "Password is required",
                   minLength: { value: 6, message: "Min 6 chars" },
                 })}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-blue-500 transition-colors"
+              >
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </button>
             </div>
             {errors.password && (
               <p className="text-red-500 text-xs ml-1">
@@ -235,6 +254,14 @@ const SignUp = () => {
             icon={isSigningUp ? null : FiUserPlus}
             className="mt-6"
           />
+
+          <button
+            type="button"
+            onClick={handleDemoFill}
+            className="w-full mt-4 py-2 px-4 rounded-xl border border-blue-200 text-blue-600 font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-blue-50 transition-all"
+          >
+            Auto-fill demo data
+          </button>
         </form>
 
         <div className="mt-8 text-center pt-6 border-t border-gray-200/60">

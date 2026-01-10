@@ -14,6 +14,8 @@ import {
   FiUploadCloud,
   FiUsers,
   FiHome,
+  FiEye,
+  FiEyeOff,
 } from "react-icons/fi";
 import BackgroundGlow from "../../../components/Shared/BackgroundGlow";
 import { ImageUpload } from "../../../utils";
@@ -27,10 +29,12 @@ const HRSignUp = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const [isSigningUp, setIsSigningUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -83,6 +87,15 @@ const HRSignUp = () => {
     } finally {
       setIsSigningUp(false);
     }
+  };
+
+  const handleDemoFill = () => {
+    setValue("name", "Demo HR Manager");
+    setValue("email", `demo.hr.${Math.floor(Math.random() * 1000)}@gmail.com`);
+    setValue("password", "123456");
+    setValue("companyName", "Tech Innovators Inc");
+    setValue("companyLogo", "https://i.ibb.co/V9X9Y4y/logo.png");
+    toast.success("HR Demo details filled! (Please select a profile image)");
   };
 
   if (loading) return <LoadingSpinner />;
@@ -173,14 +186,21 @@ const HRSignUp = () => {
               <div className="relative">
                 <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none transition-all text-gray-700"
+                  className="w-full pl-10 pr-12 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none transition-all text-gray-700 py-3"
                   {...register("password", {
                     required: "Password is required",
                     minLength: 6,
                   })}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-indigo-600 transition-colors"
+                >
+                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                </button>
               </div>
               {errors.password && (
                 <p className="text-red-500 text-xs ml-1">
@@ -280,6 +300,13 @@ const HRSignUp = () => {
               disabled={isSigningUp}
               className="mt-4 bg-primary"
             />
+            <button
+              type="button"
+              onClick={handleDemoFill}
+              className="w-full mt-4 py-2 px-4 rounded-xl border border-indigo-200 text-indigo-600 font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-indigo-50 transition-all"
+            >
+              Auto-fill demo data
+            </button>
           </div>
         </form>
 

@@ -20,7 +20,7 @@ const Assets = () => {
   }
 
   return (
-    <section className="py-20 bg-gray-50/50">
+    <section className="py-20">
       <Container>
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-black mb-4">
@@ -41,7 +41,7 @@ const Assets = () => {
         <div className="text-center mt-20">
           <Link
             to={"/all-assets-public"}
-            className="btn btn-primary text-xl font-semibold text-white "
+            className="btn bg-blue-600 rounded-xl hover:bg-blue-700 hover:scale-105 transition-all text-xl font-semibold text-white "
           >
             All Assets
           </Link>

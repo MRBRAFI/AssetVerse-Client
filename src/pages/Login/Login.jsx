@@ -5,7 +5,7 @@ import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { FiMail, FiLock, FiLogIn, FiHome } from "react-icons/fi";
+import { FiMail, FiLock, FiLogIn, FiHome, FiEye, FiEyeOff } from "react-icons/fi";
 import BackgroundGlow from "../../components/Shared/BackgroundGlow";
 import Button from "../../components/Shared/Button/Button";
 
@@ -14,10 +14,12 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -41,6 +43,17 @@ const Login = () => {
       toast.error("Valid Credentials are required");
       setIsLoggingIn(false);
     }
+  };
+
+  const handleDemoLogin = (role) => {
+    if (role === "HR") {
+      setValue("email", "mrb@gmail.com");
+      setValue("password", "123456");
+    } else {
+      setValue("email", "employee@gmail.com");
+      setValue("password", "123456");
+    }
+    toast.success(`${role} credentials filled!`);
   };
 
   return (
@@ -126,10 +139,10 @@ const Login = () => {
                   <FiLock />
                 </div>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700 placeholder-gray-400"
+                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-700 placeholder-gray-400"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -138,6 +151,13 @@ const Login = () => {
                     },
                   })}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-blue-500 transition-colors"
+                >
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
+                </button>
               </div>
               {errors.password && (
                 <p className="text-red-500 text-xs ml-1">
@@ -156,6 +176,28 @@ const Login = () => {
             icon={isLoggingIn ? null : FiLogIn}
             className="mt-4"
           />
+
+          <div className="pt-6 border-t border-gray-100">
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 text-center">
+              Quick Demo Access
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("HR")}
+                className="py-2 px-4 rounded-xl bg-indigo-50 text-indigo-600 font-bold text-xs uppercase tracking-widest hover:bg-indigo-100 transition-colors border border-indigo-100"
+              >
+                HR Demo
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoLogin("Employee")}
+                className="py-2 px-4 rounded-xl bg-blue-50 text-blue-600 font-bold text-xs uppercase tracking-widest hover:bg-blue-100 transition-colors border border-blue-100"
+              >
+                Employee
+              </button>
+            </div>
+          </div>
         </form>
 
         <div className="mt-8 text-center pt-6 border-t border-gray-200/60">
