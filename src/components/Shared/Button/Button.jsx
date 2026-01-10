@@ -38,6 +38,7 @@ const Button = ({
         font-black uppercase tracking-[0.2em]
         transition-all duration-300
         border-2
+        cursor-pointer
         disabled:opacity-40 disabled:cursor-not-allowed
         ${variants[variant]}
         ${sizes[size]}

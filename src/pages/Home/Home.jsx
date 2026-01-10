@@ -12,6 +12,9 @@ import HowItWorks from "../../components/Home/HowItWorks";
 import TestimonialsAndStats from "../../components/Home/TestimonialsAndStats";
 import FAQ from "../../components/Home/FAQ";
 import ContactCTA from "../../components/Home/ContactCTA";
+import Highlights from "../../components/Home/Highlights";
+import Blog from "../../components/Home/Blog";
+import Newsletter from "../../components/Home/Newsletter";
 
 const Home = () => {
   const { user } = useAuth();
@@ -21,13 +24,16 @@ const Home = () => {
     <div>
       <Banner />
       <Features />
+      <Highlights />
       <HowItWorks />
       <AboutUsHome />
       <TestimonialsAndStats />
       {role === "HR" && <Packages />}
       <Assets />
+      <Blog />
       <FAQ />
       <ContactCTA />
+      <Newsletter />
     </div>
   );
 };
